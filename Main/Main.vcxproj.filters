@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\GameObject">
+      <UniqueIdentifier>{79da9991-4b3a-4e8c-8fb5-81732b60ad0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\GameObject\Mesh">
+      <UniqueIdentifier>{a858e025-06b9-4d2c-9ff4-6cb4bf0af4e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\GameObject\Material">
+      <UniqueIdentifier>{030a99e6-476c-4078-8d8b-bd208aa314cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\GameObject\Main">
+      <UniqueIdentifier>{42e90d22-7197-41b6-b97d-b79e254ff33c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Main">
+      <UniqueIdentifier>{8ec77ed0-791a-452b-8f19-3d1ca01f7d34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Main">
+      <UniqueIdentifier>{a57faee5-e24c-42d8-b020-5844dd584312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\GameObject\Animation">
+      <UniqueIdentifier>{d53174dc-29af-4ae9-8b9c-4035ca83d2a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\GameObject\Node">
+      <UniqueIdentifier>{49f3ba24-ae0b-4c61-99a3-22453c4d8dae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\GameObject\BoneWeightVertex">
+      <UniqueIdentifier>{e1040183-40d0-48fc-93bf-b9ef95753d5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\GameObject\BoneReference">
+      <UniqueIdentifier>{241ea3c5-1c43-4f99-a9fd-cfd5b6a1fe30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\SkeletalMesh">
+      <UniqueIdentifier>{7bb111a8-7fd3-4461-98ce-3d3bd2332997}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animation.h">
+      <Filter>소스 파일\GameObject\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>소스 파일\GameObject\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>소스 파일\GameObject\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>소스 파일\GameObject\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeSystem.h">
+      <Filter>헤더 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="MainApp.h">
+      <Filter>헤더 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>헤더 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffers.h">
+      <Filter>헤더 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>소스 파일\GameObject\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneWeightVertex.h">
+      <Filter>소스 파일\GameObject\BoneWeightVertex</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneReference.h">
+      <Filter>소스 파일\GameObject\BoneReference</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletalMesh.h">
+      <Filter>소스 파일\SkeletalMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Animation.cpp">
+      <Filter>소스 파일\GameObject\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>소스 파일\GameObject\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>소스 파일\GameObject\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>소스 파일\GameObject\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="MainApp.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeSystem.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffers.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>소스 파일\GameObject\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneWeightVertex.cpp">
+      <Filter>소스 파일\GameObject\BoneWeightVertex</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneReference.cpp">
+      <Filter>소스 파일\GameObject\BoneReference</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletalMesh.cpp">
+      <Filter>소스 파일\SkeletalMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

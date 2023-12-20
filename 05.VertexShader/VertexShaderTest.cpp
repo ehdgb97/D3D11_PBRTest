@@ -1,0 +1,325 @@
+#include "VertexShaderTest.h"
+#include <directxtk/simplemath.h>
+#include <d3dcompiler.h>
+#include "../Main/Helper.h"
+#pragma comment (lib, "d3d11.lib")
+#pragma comment(lib,"d3dcompiler.lib")
+
+using namespace DirectX::SimpleMath;
+struct Vertex
+{
+    Vector3 position;		// 정점 위치 정보.
+    Vector4 color;			// 정점 색상 정보.
+
+    Vertex(float x, float y, float z) : position(x, y, z) { }
+    Vertex(Vector3 position) : position(position) { }
+
+    Vertex(Vector3 position, Vector4 color)
+        : position(position), color(color) { }
+};
+
+struct CB_Transform
+{
+    Matrix mWorld;
+    Matrix mView;
+    Matrix mProjection;
+};
+
+VertexShaderTest::VertexShaderTest(HINSTANCE hInstance)
+    :MainApp(hInstance)
+{
+}
+
+VertexShaderTest::~VertexShaderTest()
+{
+    UninitScene();
+    UninitD3D();
+}
+
+bool VertexShaderTest::Initialize(UINT Width, UINT Height)
+{
+    MainApp::Initialize(Width, Height);
+    if (!InitD3D())
+        return false;
+
+    if (!InitScene())
+        return false;
+    return true;
+}
+void VertexShaderTest::Update()
+{
+    __super::Update();
+    m_World = DirectX::XMMatrixRotationY(GameTimer::m_Instance->TotalTime());
+}
+void VertexShaderTest::Render()
+{
+    float color[4] = { 0.0f, 0.5f, 0.5f, 1.0f };
+
+    // 화면 칠하기.
+    m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, color);
+
+    ///찾아보기
+    // Update variables
+    CB_Transform cb;
+    cb.mWorld = XMMatrixTranspose(m_World);
+    cb.mView = XMMatrixTranspose(m_View);
+    cb.mProjection = XMMatrixTranspose(m_Projection);
+    m_pDeviceContext->UpdateSubresource(m_pConstantBuffer, 0, nullptr, &cb, 0, 0);
+
+    // Draw계열 함수를 호출하기전에 렌더링 파이프라인에 필수 스테이지 설정을 해야한다.	
+    m_pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 정점을 이어서 그릴 방식 설정.
+    m_pDeviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &m_VertextBufferStride, &m_VertextBufferOffset);
+    m_pDeviceContext->IASetInputLayout(m_pInputLayout);
+    m_pDeviceContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+    m_pDeviceContext->VSSetShader(m_pVertexShader, nullptr, 0);
+    m_pDeviceContext->PSSetShader(m_pPixelShader, nullptr, 0);
+    m_pDeviceContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
+
+
+    ///찾아보기
+    m_pDeviceContext->DrawIndexed(m_nIndices, 0, 0);
+
+    // Render a triangle	
+   // m_pDeviceContext->Draw(3, 0);
+
+    // Present the information rendered to the back buffer to the front buffer (the screen)
+    m_pSwapChain->Present(0, 0);
+
+}
+
+bool VertexShaderTest::Run()
+{
+    MainApp::Run();
+    return true;
+}
+
+
+
+bool VertexShaderTest::InitD3D()
+{
+    HRESULT hr = 0;
+
+    // DirectX 11.0 systems
+    DXGI_SWAP_CHAIN_DESC swapDesc = {};
+    ZeroMemory(&swapDesc, sizeof(DXGI_SWAP_CHAIN_DESC)); //이건 뭐지
+
+    swapDesc.BufferCount = 1;
+    //백버퍼 사이즈
+    swapDesc.BufferDesc.Width = m_ClientWidth;
+    swapDesc.BufferDesc.Height = m_ClientHeight;
+    //화면 주사율 설정 //RefreshRate : 화면 갱신률(프레임)
+    swapDesc.BufferDesc.RefreshRate.Numerator = 60;    //분자
+    swapDesc.BufferDesc.RefreshRate.Denominator = 1;    //분모
+    //(float a = 0.0f~1.0f 로 0~255 가 정규화 되어있다고 생각하면된다)UNORM : Unsigned Normalize (정규화)
+    swapDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    swapDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    swapDesc.OutputWindow = m_hWnd;
+    //MSAA(Multi Sampling Anti Aliasing)쓸꺼냐? 1, 0 이면 안쓴다는 옵션.
+    swapDesc.SampleDesc.Count = 1;
+    swapDesc.SampleDesc.Quality = 0;
+    //이미지중에 하나를 추출하는것을 SampleDesc 라고한다.
+/*
+   픽셀이 적으면 계단현상이 나오는데 이것을 Aliasing이라고한다.
+   그래서 그 계단현상을 없애려는 것이 Anti Aliasing이라고 한다.
+   밑에 AA는 Anti Aliasing이다.
+   SSAA//Super Sampling Anti Aliasing
+   - 4배씩 늘리고 보정을 한 후 다시 줄인다. 그래서 선명하게 만든다.
+   단점 : 비용이 너무 쎄다. 그래서 잘 안쓴다.
+
+   MSAA//Multi Sampling Anti Aliasing (쓰레드에서 많이 쓰는 기법이다)
+   - Anti Aliasing이 일어나는건 결국 테두리이다. 그래서 테두리를 잡고 보정을한다.
+   단점 : 이것도 비용이 쎄다. 사용자가 이 기능을 킬 수 있게 옵션을 넣어 줄 수 있다.
+*/
+    swapDesc.Windowed = TRUE;;  //창모드쓸꺼냐 TRUE -> 창모드
+
+
+    UINT creationFlags = D3D11_CREATE_DEVICE_SINGLETHREADED;
+#ifdef _DEBUG
+    creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+
+
+    HR_T(D3D11CreateDeviceAndSwapChain(NULL,
+        D3D_DRIVER_TYPE_HARDWARE,
+        NULL,
+        creationFlags,
+        NULL,
+        NULL,
+        D3D11_SDK_VERSION,
+        &swapDesc,
+        &m_pSwapChain,
+        &m_pDevice,
+        NULL,
+        &m_pDeviceContext));
+
+
+    // 4. 렌더타겟뷰 생성.  (백버퍼를 이용하는 렌더타겟뷰)	
+    ID3D11Texture2D* pBackBuffer = nullptr;
+    HR_T(m_pSwapChain->GetBuffer(0,
+        __uuidof(ID3D11Texture2D),
+        reinterpret_cast<void**>(&pBackBuffer)));
+
+
+    HR_T(m_pDevice->CreateRenderTargetView(pBackBuffer,
+        nullptr,
+        &m_pRenderTargetView)); // 텍스처는 내부 참조 증가
+    SAFE_RELEASE(pBackBuffer);
+
+    m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, nullptr);
+
+    //4. 뷰포트 설정.	
+    D3D11_VIEWPORT viewport = {};
+    viewport.TopLeftX = 0;
+    viewport.TopLeftY = 0;
+    viewport.Width = (float)m_ClientWidth;
+    viewport.Height = (float)m_ClientHeight;
+    viewport.MinDepth = 0.0f;
+    viewport.MaxDepth = 1.0f;
+    m_pDeviceContext->RSSetViewports(1, &viewport);
+
+
+    return true;
+
+}
+
+void VertexShaderTest::UninitD3D()
+{
+    SAFE_RELEASE(m_pDevice);
+    SAFE_RELEASE(m_pDeviceContext);
+    SAFE_RELEASE(m_pSwapChain);
+    SAFE_RELEASE(m_pRenderTargetView);
+}
+
+// 1. Render() 에서 파이프라인에 바인딩할 버텍스 버퍼및 버퍼 정보 준비
+// 2. Render() 에서 파이프라인에 바인딩할 InputLayout 생성 	
+// 3. Render() 에서 파이프라인에 바인딩할  버텍스 셰이더 생성
+// 4. Render() 에서 파이프라인에 바인딩할 인덱스 버퍼 생성
+// 5. Render() 에서 파이프라인에 바인딩할 픽셀 셰이더 생성
+bool VertexShaderTest::InitScene()
+{
+    using namespace DirectX::SimpleMath;
+    HRESULT hr = 0; // 결과값.
+
+    Vertex vertices[] =
+    {
+    	{ Vector3(-1.0f, 1.0f, -1.0f),	Vector4(1.0f, 0.0f, 0.0f, 1.0f) },
+       { Vector3(1.0f, 1.0f, -1.0f),	Vector4(0.7f, 0.0f, 0.0f, 1.0f) },
+       { Vector3(1.0f, 1.0f, 1.0f),	Vector4(0.4f, 0.0f, 0.0f, 1.0f) },
+       { Vector3(-1.0f, 1.0f, 1.0f),	Vector4(0.7f, 0.0f, 0.0f, 1.0f) },
+       { Vector3(-1.0f, -1.0f, -1.0f), Vector4(0.5f, 0.0f, 0.0f, 1.0f) },
+       { Vector3(1.0f, -1.0f, -1.0f),	Vector4(0.4f, 0.0f, 0.0f, 1.0f) },
+       { Vector3(1.0f, -1.0f, 1.0f),	Vector4(0.2f, 0.0f, 0.0f, 1.0f) },
+       { Vector3(-1.0f, -1.0f, 1.0f),	Vector4(0.4f, 0.0f, 0.0f, 1.0f) },
+    };
+
+    D3D11_BUFFER_DESC BufferDesc = {};
+    BufferDesc.ByteWidth = sizeof(Vertex) * ARRAYSIZE(vertices);
+    ///이거 뭐임?
+    BufferDesc.CPUAccessFlags = 0;
+    //vbDesc.MiscFlags = 0;
+    BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+    BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+
+    // 정점 버퍼 생성.
+    D3D11_SUBRESOURCE_DATA vbData = {};
+    vbData.pSysMem = vertices;
+    HR_T(m_pDevice->CreateBuffer(&BufferDesc, &vbData, &m_pVertexBuffer));
+
+    // 버텍스 버퍼 정보 
+    m_VertextBufferStride = sizeof(Vertex);
+    m_VertextBufferOffset = 0;
+
+
+    ///이것도 찾아보기
+    // 2. Render() 에서 파이프라인에 바인딩할 InputLayout 생성 	
+    D3D11_INPUT_ELEMENT_DESC layout[] = // 입력 레이아웃.
+    {   // SemanticName , SemanticIndex , Format , InputSlot , AlignedByteOffset , InputSlotClass , InstanceDataStepRate	
+        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 },// 4byte * 3 = 12byte
+        { "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 } // 12 대신 D3D11_APPEND_ALIGNED_ELEMENT 사용 가능.
+    };
+    ID3DBlob* vertexShaderBuffer = nullptr;
+    HR_T(CompileShaderFromFile(L"BasicVertexShader.hlsl", "main", "vs_4_0", &vertexShaderBuffer));
+
+    HR_T(m_pDevice->CreateInputLayout(layout, ARRAYSIZE(layout), vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), &m_pInputLayout));
+
+    // 3. Render에서 파이프라인에 바인딩할  버텍스 셰이더 생성
+    HR_T(m_pDevice->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), NULL, &m_pVertexShader));
+
+    SAFE_RELEASE(vertexShaderBuffer);
+
+
+    // 4-1. Render에서 파이프라인에 바인딩할 픽셀 셰이더 생성
+    //ID3DBlob* pixelShaderBuffer = nullptr;
+    //HR_T(CompileShaderFromFile(L"BasicPixelShader.hlsl", "main", "ps_4_0", &pixelShaderBuffer));
+    //HR_T(m_pDevice->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(), pixelShaderBuffer->GetBufferSize(), NULL, &m_pPixelShader));
+    //SAFE_RELEASE(pixelShaderBuffer);
+
+
+    /// 4-2. Render() 에서 파이프라인에 바인딩할 인덱스 버퍼 생성
+    UINT indices[] =
+    {
+        3,1,0, 2,1,3,
+        0,5,4, 1,5,0,
+        3,4,7, 0,4,3,
+        1,6,5, 2,6,1,
+        2,7,6, 3,7,2,
+        6,4,5, 7,4,6,
+    };
+    m_nIndices = ARRAYSIZE(indices);	// 인덱스 개수 저장.
+    //D3D11_BUFFER_DESC ibDesc = {};
+    BufferDesc.ByteWidth = sizeof(UINT) * ARRAYSIZE(indices);
+    BufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+    BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+    D3D11_SUBRESOURCE_DATA ibData = {};
+    ibData.pSysMem = indices;
+    HR_T(m_pDevice->CreateBuffer(&BufferDesc, &ibData, &m_pIndexBuffer));
+
+    // 5. Render() 에서 파이프라인에 바인딩할 픽셀 셰이더 생성
+    ID3D10Blob* pixelShaderBuffer = nullptr;
+    HR_T(CompileShaderFromFile(L"BasicPixelShader.hlsl", "main", "ps_4_0", &pixelShaderBuffer));
+    HR_T(m_pDevice->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(),
+        pixelShaderBuffer->GetBufferSize(), NULL, &m_pPixelShader));
+    SAFE_RELEASE(pixelShaderBuffer);	// 픽셀 셰이더 버퍼 더이상 필요없음.
+
+
+    // 6. Render() 에서 파이프라인에 바인딩할 상수 버퍼 생성
+    // Create the constant buffer
+    BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+    BufferDesc.ByteWidth = sizeof(CB_Transform);
+    BufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    BufferDesc.CPUAccessFlags = 0;
+    HR_T(m_pDevice->CreateBuffer(&BufferDesc, nullptr, &m_pConstantBuffer));
+
+    // 쉐이더에 전달할 데이터 설정
+    // Initialize the world matrix
+    m_World = DirectX::XMMatrixIdentity();
+
+    // Initialize the view matrix
+    DirectX::XMVECTOR Eye = DirectX::XMVectorSet(0.0f, 1.0f, -5.0f, 0.0f);
+    DirectX::XMVECTOR At = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+    DirectX::XMVECTOR Up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+    m_View = DirectX::XMMatrixLookAtLH(Eye, At, Up);
+
+    // Initialize the projection matrix
+    m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, m_ClientWidth / (FLOAT)m_ClientHeight, 0.01f, 100.0f);
+    return true;
+}
+
+
+
+
+
+
+
+void VertexShaderTest::UninitScene()
+{
+    SAFE_RELEASE(m_pVertexBuffer);
+    SAFE_RELEASE(m_pInputLayout);
+    SAFE_RELEASE(m_pVertexShader);
+    SAFE_RELEASE(m_pPixelShader);
+    SAFE_RELEASE(m_pIndexBuffer);
+    SAFE_RELEASE(m_pConstantBuffer);
+}
