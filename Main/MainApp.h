@@ -1,9 +1,9 @@
 #pragma once
 #include <windows.h>
 #include "TimeSystem.h"
+#include "D3DRenderManager.h"
 
 #define MAX_LOADSTRING 100
-
 class	MainApp
 {
 public:
@@ -26,6 +26,7 @@ public:
 	GameTimer m_Timer;
 	UINT m_ClientWidth;
 	UINT m_ClientHeight;
+	D3DRenderManager m_D3DRenderer;
 
 	UINT GetClientWidth() { return m_ClientWidth; }
 	UINT GetClientHeight() { return m_ClientHeight; }
@@ -35,7 +36,7 @@ public:
 	virtual bool Initialize(UINT Width, UINT Height);
 	virtual bool Run();
 	virtual void Update(); // 상속 받은 클래스에서 구현
-	virtual void Render()=0; // 상속 받은 클래스에서 구현
+	virtual void Render(); // 상속 받은 클래스에서 구현
 
 	virtual LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
