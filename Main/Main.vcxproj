@@ -146,6 +146,7 @@
     <ClInclude Include="ConstantBuffers.h" />
     <ClInclude Include="D3DRenderManager.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="FullSkeletonMesh.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="MainApp.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="BoneWeightVertex.cpp" />
     <ClCompile Include="ConstantBuffers.cpp" />
     <ClCompile Include="D3DRenderManager.cpp" />
+    <ClCompile Include="FullSkeletonMesh.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="Main.cpp" />

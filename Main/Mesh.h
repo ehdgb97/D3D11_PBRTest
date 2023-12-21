@@ -26,11 +26,11 @@ public:
 	Mesh(GameObject* owner);
 	~Mesh();
 public:
-	void CreateVertexBuffer(ID3D11Device* device, Vertex* vertices, UINT vertexCount);
-	void CreateBoneWeightVertexBuffer(ID3D11Device* device, BoneWeightVertex* vertices, UINT vertexCount);
-	void CreateIndexBuffer(ID3D11Device* device, UINT* indies, UINT indexCount);
-	void Create(ID3D11Device* device, aiMesh* mesh);
-	void Create_Bone(ID3D11Device* device, aiMesh* mesh);
+	void CreateVertexBuffer( Vertex* vertices, UINT vertexCount);
+	void CreateBoneWeightVertexBuffer( BoneWeightVertex* vertices, UINT vertexCount);
+	void CreateIndexBuffer( UINT* indies, UINT indexCount);
+	void Create( aiMesh* mesh);
+	void Create_Bone( aiMesh* mesh);
 	void Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB, ID3D11Buffer* m_pTransformCB, ID3D11Buffer* m_pBoneTransformBuffer, CB_Transform* test);
 	void UpdateMatrixPallete(ID3D11DeviceContext* deviceContext, ID3D11Buffer* m_pBoneTransformBuffer);
 	GameObject*  m_owner;

@@ -43,7 +43,7 @@
     <Filter Include="소스 파일\GameObject\BoneReference">
       <UniqueIdentifier>{241ea3c5-1c43-4f99-a9fd-cfd5b6a1fe30}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\SkeletalMesh">
+    <Filter Include="소스 파일\GameObject\Mesh\SkeletalMesh">
       <UniqueIdentifier>{7bb111a8-7fd3-4461-98ce-3d3bd2332997}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -88,13 +88,16 @@
       <Filter>소스 파일\GameObject\BoneReference</Filter>
     </ClInclude>
     <ClInclude Include="SkeletalMesh.h">
-      <Filter>소스 파일\SkeletalMesh</Filter>
+      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="D3DRenderManager.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FullSkeletonMesh.h">
+      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -138,13 +141,16 @@
       <Filter>소스 파일\GameObject\BoneReference</Filter>
     </ClCompile>
     <ClCompile Include="SkeletalMesh.cpp">
-      <Filter>소스 파일\SkeletalMesh</Filter>
+      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="D3DRenderManager.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FullSkeletonMesh.cpp">
+      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

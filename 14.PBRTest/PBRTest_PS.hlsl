@@ -65,7 +65,7 @@ float4 main(PS_INPUT input) : SV_TARGET
     if (UseNormalMap)
     {
         // Get current fragment's normal and transform to world space.
-        float3 vNormalTangentSpace = txNormal.Sample(samLinear, input.TexCoord).rgb * 2.0f - 1.0f;
+        float3 vNormalTangentSpace = normalize(txNormal.Sample(samLinear, input.TexCoord).rgb * 2.0f - 1.0f);
         float3x3 WorldTransform = float3x3(vTangent, vBiTanget, vNormal);
         
         
@@ -74,23 +74,23 @@ float4 main(PS_INPUT input) : SV_TARGET
     }
     
     
-    float4 fTxDiffuse = txDiffuse.Sample(samLinear, input.TexCoord);
     float fNDotL = max(dot(vNormal, -LightDir), 0);
     float3 vView = normalize(EyePosition - input.PosWorld.xyz);
-    float4 Ambient = LightAmbient * MaterialAmbient;
-    float4 Diffuse = LightDiffuse * MaterialDiffuse * fNDotL;
-    if (UseDiffuseMap)
-    {
-        Diffuse *= fTxDiffuse;
-        Ambient *= fTxDiffuse;
-    }
+    //float4 Ambient = LightAmbient * MaterialAmbient;
+    //float4 Diffuse = LightDiffuse * MaterialDiffuse * fNDotL;
+    //if (UseDiffuseMap)
+    //{
+    //    Diffuse *= fTxDiffuse;
+    //    Ambient *= fTxDiffuse;
+    //}
     
     float3 albedo;
     float Metalness;
     float Roughness;
     float4 Emissive = 0;
     float Opacity = 1.0f;
-    float4 Specular_tx = { 1, 1, 1, 1 };
+    float4 Specular_tx = { 1, 1, 1, 1};
+	float4 Ambient = LightAmbient * MaterialAmbient;
     
     if (UseDiffuseMap)
         albedo = txDiffuse.Sample(samLinear, input.TexCoord).rgb;
@@ -113,20 +113,11 @@ float4 main(PS_INPUT input) : SV_TARGET
     //==========================================
     
     // Angle between surface normal and outgoing light direction.
-    float cosLo /*= max(0.0, dot(vNormal, vView))*/;
-    if (UseBlinnPhong)      //BlinnPhong
-    {
-        float3 HalfVector = normalize(-LightDir + vView);
-        cosLo = max(dot(HalfVector, vNormal), 0);
-    }
-    else //Pong 
-    {
-        float3 vReflection = reflect(LightDir, vNormal);
-        cosLo = max(dot(vReflection, vView), 0);
-    }
+    float cosLo= max(0.0, dot(vNormal, vView));
+
     
 	//// Specular reflection vector.
- //   float3 Lr = 2.0 * cosLo * vNormal - vView;
+ float3 Lr = 2.0 * cosLo * vNormal - vView;
 
 	// Fresnel reflectance at normal incidence (for metals use albedo color).
     float3 F0 = lerp(Fdielectric, albedo, Metalness);
@@ -145,7 +136,7 @@ float4 main(PS_INPUT input) : SV_TARGET
 	// Calculate Fresnel term for direct lighting. 
     float3 F = fresnelSchlick(F0, max(0.0, dot(Lh, vView)));
 	// Calculate normal distribution for specular BRDF.
-    float D = ndfGGX(cosLh, Roughness);
+    float D = ndfGGX(cosLh, max(0.01, Roughness));
 	// Calculate geometric attenuation for specular BRDF.
     float G = gaSchlickGGX(cosLi, cosLo, Roughness);
 
@@ -173,12 +164,9 @@ float4 main(PS_INPUT input) : SV_TARGET
     
   
     //================================Specular=========================================
-    //float4 Specular = pow(fSDot, MaterialSpecularPower) * LightSpecular * MaterialSpecular;
-    //Specular *= Specular_tx;
-    
 
-    float4 FinalColor = Diffuse + /*Specular +*/Ambient + Emissive;
-    FinalColor = float4(directLighting, 1);
-    FinalColor = float4(FinalColor.rgb, Opacity);
-    return FinalColor;
+
+        
+    float4 FinalColor = float4(directLighting.rgb, Opacity)+ Ambient + Emissive;
+    return FinalColor = float4(FinalColor.rgb, Opacity);
 }

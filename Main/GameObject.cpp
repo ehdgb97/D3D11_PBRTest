@@ -42,11 +42,11 @@ bool GameObject::SetFBX(ID3D11Device* Device, string Filename)
 		m_Meshes[i] = new Mesh(this);
 		if (scene->mMeshes[i]->HasBones())
 		{
-			m_Meshes[i]->Create_Bone(Device, scene->mMeshes[i]);
+			m_Meshes[i]->Create_Bone(scene->mMeshes[i]);
 		}
 		else
 		{
-			m_Meshes[i]->Create(Device, scene->mMeshes[i]);
+			m_Meshes[i]->Create(scene->mMeshes[i]);
 		}
 	}
     m_rootNode = make_shared<Node>(this);

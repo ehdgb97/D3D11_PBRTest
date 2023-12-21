@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Helper.h"
 #include "ConstantBuffers.h"
+#include "D3DRenderManager.h"
 #include <map>
 
 using namespace DirectX;
@@ -18,7 +19,7 @@ Mesh::~Mesh()
 	SAFE_RELEASE(m_pIndexBuffer);
 }
 
-void Mesh::CreateVertexBuffer(ID3D11Device* device, Vertex* vertices, UINT vertexCount)
+void Mesh::CreateVertexBuffer( Vertex* vertices, UINT vertexCount)
 {
 	D3D11_BUFFER_DESC bd = {};
 	bd.ByteWidth = sizeof(Vertex) * vertexCount;
@@ -28,7 +29,7 @@ void Mesh::CreateVertexBuffer(ID3D11Device* device, Vertex* vertices, UINT verte
 
 	D3D11_SUBRESOURCE_DATA vbData = {};
 	vbData.pSysMem = vertices;
-	HR_T(device->CreateBuffer(&bd, &vbData, &m_pVertexBuffer));
+	HR_T(D3DRenderManager::m_pDevice->CreateBuffer(&bd, &vbData, &m_pVertexBuffer));
 
 	// 버텍스 버퍼 정보
 	m_VertexCount = vertexCount;
@@ -36,7 +37,7 @@ void Mesh::CreateVertexBuffer(ID3D11Device* device, Vertex* vertices, UINT verte
 	m_VertexBufferOffset = 0;
 }
 
-void Mesh::CreateBoneWeightVertexBuffer(ID3D11Device* device, BoneWeightVertex* vertices, UINT vertexCount)
+void Mesh::CreateBoneWeightVertexBuffer( BoneWeightVertex* vertices, UINT vertexCount)
 {
 	D3D11_BUFFER_DESC bd = {};
 	bd.ByteWidth = sizeof(BoneWeightVertex) * vertexCount;
@@ -46,7 +47,7 @@ void Mesh::CreateBoneWeightVertexBuffer(ID3D11Device* device, BoneWeightVertex* 
 
 	D3D11_SUBRESOURCE_DATA vbData = {};
 	vbData.pSysMem = vertices;
-	HR_T(device->CreateBuffer(&bd, &vbData, &m_pVertexBuffer));
+	HR_T(D3DRenderManager::m_pDevice->CreateBuffer(&bd, &vbData, &m_pVertexBuffer));
 
 	// 버텍스 버퍼 정보
 	m_VertexCount = vertexCount;
@@ -54,7 +55,7 @@ void Mesh::CreateBoneWeightVertexBuffer(ID3D11Device* device, BoneWeightVertex* 
 	m_VertexBufferOffset = 0;
 }
 
-void Mesh::CreateIndexBuffer(ID3D11Device* device, UINT* indices, UINT indexCount)
+void Mesh::CreateIndexBuffer(UINT* indices, UINT indexCount)
 {
 	// 인덱스 개수 저장.
 	m_IndexCount = indexCount;
@@ -67,11 +68,11 @@ void Mesh::CreateIndexBuffer(ID3D11Device* device, UINT* indices, UINT indexCoun
 
 	D3D11_SUBRESOURCE_DATA ibData = {};
 	ibData.pSysMem = indices;
-	HR_T(device->CreateBuffer(&bd, &ibData, &m_pIndexBuffer));
+	HR_T(D3DRenderManager::m_pDevice->CreateBuffer(&bd, &ibData, &m_pIndexBuffer));
 }
 
 
-void Mesh::Create(ID3D11Device* device, aiMesh* mesh)
+void Mesh::Create(aiMesh* mesh)
 {
 	m_MaterialIndex = mesh->mMaterialIndex;
 	m_pMaterial = m_owner->GetMaterials()[m_MaterialIndex];
@@ -84,7 +85,7 @@ void Mesh::Create(ID3D11Device* device, aiMesh* mesh)
 		vertices[i].Texcoord = Vector2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 		vertices[i].Tangent = Vector3(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z);
 	}
-	CreateVertexBuffer(device, vertices.get(), mesh->mNumVertices);
+	CreateVertexBuffer(vertices.get(), mesh->mNumVertices);
 
 	// 인덱스 정보 생성
 	unique_ptr<UINT[]> indices(new UINT[mesh->mNumFaces * 3]);
@@ -97,12 +98,12 @@ void Mesh::Create(ID3D11Device* device, aiMesh* mesh)
 	}
 
 
-	CreateIndexBuffer(device, indices.get(), mesh->mNumFaces * 3);
+	CreateIndexBuffer(indices.get(), mesh->mNumFaces * 3);
 
 
 }
 
-void Mesh::Create_Bone(ID3D11Device* device, aiMesh* mesh)
+void Mesh::Create_Bone(aiMesh* mesh)
 {
 
 		m_MaterialIndex = mesh->mMaterialIndex;
@@ -132,7 +133,7 @@ void Mesh::Create_Bone(ID3D11Device* device, aiMesh* mesh)
 			indices[i * 3 + 2] = mesh->mFaces[i].mIndices[2];
 		}
 
-		CreateIndexBuffer(device, indices.get(), mesh->mNumFaces * 3);
+		CreateIndexBuffer(indices.get(), mesh->mNumFaces * 3);
 
 
 		UINT meshBoneCount = mesh->mNumBones; // 메쉬와 연결된 본개수 
@@ -165,7 +166,7 @@ void Mesh::Create_Bone(ID3D11Device* device, aiMesh* mesh)
 			}
 		}
 
-		CreateBoneWeightVertexBuffer(device, &m_BoneWeightVertexs[0], (UINT)m_BoneWeightVertexs.size());
+		CreateBoneWeightVertexBuffer(&m_BoneWeightVertexs[0], (UINT)m_BoneWeightVertexs.size());
 
 }
 void Mesh::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB, ID3D11Buffer* m_pTransformCB, ID3D11Buffer* m_pBoneTransformBuffer, CB_Transform* test)
