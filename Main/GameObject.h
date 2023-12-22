@@ -31,7 +31,7 @@ public:
 	bool Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB, ID3D11Buffer* m_pTransformCB, ID3D11Buffer* m_pBoneTransformBuffer,CB_Transform* test);
 
 
-	bool SetFBX(ID3D11Device* Device, string Filename);
+	bool SetFBX( string Filename);
 	void SetWorld(Matrix world);
 	void SetPos(Vector3 Pos);
 	void SetScale(Vector3 Scale);

@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "SkeletalMesh.h"
+#include "SkeletalMeshPart.h"
 #include "D3DRenderManager.h"
 #include "pch.h"
 #include "Mesh.h"
@@ -10,17 +10,18 @@
 
 using namespace DirectX;
 
-SkeletalMesh::SkeletalMesh()
+SkeletalMeshPart::SkeletalMeshPart()
+	:m_pVertexBuffer{ nullptr }, m_pIndexBuffer{ nullptr }
 {
 }
 
-SkeletalMesh::~SkeletalMesh()
+SkeletalMeshPart::~SkeletalMeshPart()
 {
 	SAFE_RELEASE(m_pVertexBuffer);
 	SAFE_RELEASE(m_pIndexBuffer);
 }
 
-void SkeletalMesh::CreateBoneWeightVertexBuffer(BoneWeightVertex* vertices, UINT vertexCount)
+void SkeletalMeshPart::CreateBoneWeightVertexBuffer(BoneWeightVertex* vertices, UINT vertexCount)
 {
 	D3D11_BUFFER_DESC bd = {};
 	bd.ByteWidth = sizeof(BoneWeightVertex) * vertexCount;
@@ -38,7 +39,7 @@ void SkeletalMesh::CreateBoneWeightVertexBuffer(BoneWeightVertex* vertices, UINT
 	m_VertexBufferOffset = 0;
 }
 
-void SkeletalMesh::CreateIndexBuffer(UINT* indices, UINT indexCount)
+void SkeletalMeshPart::CreateIndexBuffer(UINT* indices, UINT indexCount)
 {
 	// 인덱스 개수 저장.
 	m_IndexCount = indexCount;
@@ -56,7 +57,7 @@ void SkeletalMesh::CreateIndexBuffer(UINT* indices, UINT indexCount)
 
 
 
-void SkeletalMesh::Create_Bone(aiMesh* mesh)
+void SkeletalMeshPart::Create_Bone(aiMesh* mesh)
 {
 	m_name = mesh->mName.C_Str();
 
@@ -119,21 +120,4 @@ void SkeletalMesh::Create_Bone(aiMesh* mesh)
 	}
 
 	CreateBoneWeightVertexBuffer(&m_BoneWeightVertexs[0], (UINT)m_BoneWeightVertexs.size());
-
 }
-void SkeletalMesh::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB, ID3D11Buffer* m_pTransformCB, ID3D11Buffer* m_pBoneTransformBuffer, CB_Transform* test)
-{
-	//m_pMaterial->m_materialCB.Ambient = m_owner->GetMaterialCB().Ambient;
-	//m_pMaterial->m_materialCB.Diffuse = m_owner->GetMaterialCB().Diffuse;
-	//m_pMaterial->m_materialCB.Emissive = m_owner->GetMaterialCB().Emissive;
-	//m_pMaterial->m_materialCB.Specular = m_owner->GetMaterialCB().Specular;
-	//m_pMaterial->m_materialCB.SpecularPower = m_owner->GetMaterialCB().SpecularPower;
-
-	//m_pMaterial->Render(m_pDeviceContext, m_pAlphaBlendState, m_pMaterialCB);
-	//m_pDeviceContext->UpdateSubresource(m_pTransformCB, 0, nullptr, test, 0, 0);
-	//m_pDeviceContext->UpdateSubresource(m_pBoneTransformBuffer, 0, nullptr, &m_matrixPalleteCB, 0, 0);
-	//m_pDeviceContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-	//m_pDeviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &m_VertexBufferStride, &m_VertexBufferOffset);
-	//m_pDeviceContext->DrawIndexed(m_IndexCount, 0, 0);
-}
-

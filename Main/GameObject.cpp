@@ -1,5 +1,5 @@
 #include "pch.h"
-
+#include"D3DRenderManager.h"
 #include "GameObject.h"
 
 #include <assimp/postprocess.h>
@@ -8,7 +8,7 @@
 
 struct CB_Transform;
 
-bool GameObject::SetFBX(ID3D11Device* Device, string Filename)
+bool GameObject::SetFBX(string Filename)
 {
     // 8. FBX Loading
 
@@ -31,7 +31,7 @@ bool GameObject::SetFBX(ID3D11Device* Device, string Filename)
     for (unsigned int i = 0; i < scene->mNumMaterials; ++i)
     {
         m_Materials[i] = new Material();
-        m_Materials[i]->Create(Device, scene->mMaterials[i]);
+        m_Materials[i]->Create(D3DRenderManager::m_pDevice, scene->mMaterials[i]);
     }
 
     m_Meshes.resize(scene->mNumMeshes);

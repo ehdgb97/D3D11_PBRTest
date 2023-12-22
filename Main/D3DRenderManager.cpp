@@ -540,7 +540,7 @@ bool D3DRenderManager::InitScene()
 	for (int i = 0; i < SpawnObject; i++)
 	{
 		shared_ptr<GameObject> newObj = make_shared<GameObject>();
-		newObj->SetFBX(m_pDevice, "cerberus.fbx");
+		newObj->SetFBX("cerberus.fbx");
 		mGameobject.push_back(newObj);
 	}
 	return true;

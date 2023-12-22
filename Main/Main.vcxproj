@@ -155,7 +155,7 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="SkeletalMesh.h" />
+    <ClInclude Include="SkeletalMeshPart.h" />
     <ClInclude Include="TimeSystem.h" />
   </ItemGroup>
   <ItemGroup>
@@ -179,7 +179,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="SkeletalMesh.cpp" />
+    <ClCompile Include="SkeletalMeshPart.cpp" />
     <ClCompile Include="TimeSystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

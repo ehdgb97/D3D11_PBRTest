@@ -3,17 +3,15 @@
 #include "BoneReference.h"
 #include "ConstantBuffers.h"
 #include "Material.h"
-class SkeletalMesh
+class SkeletalMeshPart
 {
 public:
-	SkeletalMesh();
-	~SkeletalMesh();
+	SkeletalMeshPart();
+	~SkeletalMeshPart();
 public:
 	void CreateBoneWeightVertexBuffer(BoneWeightVertex* vertices, UINT vertexCount);
 	void CreateIndexBuffer(UINT* indies, UINT indexCount);
-	void Create( aiMesh* mesh);
 	void Create_Bone(aiMesh* mesh);
-	void Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB, ID3D11Buffer* m_pTransformCB, ID3D11Buffer* m_pBoneTransformBuffer, CB_Transform* test);
 	ID3D11Buffer* m_pVertexBuffer;
 	ID3D11Buffer* m_pIndexBuffer;
 

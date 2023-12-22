@@ -87,7 +87,7 @@
     <ClInclude Include="BoneReference.h">
       <Filter>소스 파일\GameObject\BoneReference</Filter>
     </ClInclude>
-    <ClInclude Include="SkeletalMesh.h">
+    <ClInclude Include="SkeletalMeshPart.h">
       <Filter>소스 파일\GameObject\Mesh\SkeletalMesh</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
@@ -140,7 +140,7 @@
     <ClCompile Include="BoneReference.cpp">
       <Filter>소스 파일\GameObject\BoneReference</Filter>
     </ClCompile>
-    <ClCompile Include="SkeletalMesh.cpp">
+    <ClCompile Include="SkeletalMeshPart.cpp">
       <Filter>소스 파일\GameObject\Mesh\SkeletalMesh</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
