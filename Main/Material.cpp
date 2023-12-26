@@ -3,6 +3,7 @@
 #include "Material.h"
 #include "ConstantBuffers.h"
 #include "D3DRenderManager.h"
+#include "ResourceManager.h"
 
 
 
@@ -66,6 +67,8 @@ void Material::Create(aiMaterial* pMaterial)
 			path.replace_extension(".png");
 		}
 		finalPath = basePath + path.filename().wstring();
+
+
 		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pNormalRV));
 	}
 
