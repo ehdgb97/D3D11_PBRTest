@@ -9,6 +9,7 @@
 #include "Animation.h"
 #include <string>
 class Node;
+
 class GameObject
 {
 	Matrix mLocalTransformMatrix;

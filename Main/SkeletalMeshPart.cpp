@@ -56,7 +56,6 @@ void SkeletalMeshPart::CreateIndexBuffer(UINT* indices, UINT indexCount)
 }
 
 
-
 void SkeletalMeshPart::Create_Bone(aiMesh* mesh)
 {
 	m_name = mesh->mName.C_Str();
@@ -75,23 +74,8 @@ void SkeletalMeshPart::Create_Bone(aiMesh* mesh)
 		Bonevertex.Tangent.Normalize();
 	}
 
-
-	// 인덱스 정보 생성
-	unique_ptr<UINT[]> indices(new UINT[mesh->mNumFaces * 3]);
-
-	for (UINT i = 0; i < mesh->mNumFaces; ++i)
-	{
-		indices[i * 3 + 0] = mesh->mFaces[i].mIndices[0];
-		indices[i * 3 + 1] = mesh->mFaces[i].mIndices[1];
-		indices[i * 3 + 2] = mesh->mFaces[i].mIndices[2];
-	}
-
-	CreateIndexBuffer(indices.get(), mesh->mNumFaces * 3);
-
-
 	UINT meshBoneCount = mesh->mNumBones; // 메쉬와 연결된 본개수 
 	m_BoneReferences.resize(meshBoneCount); //
-
 	UINT boneIndexCounter = 0;
 	std::map<std::string, int> boneMapping;
 	for (UINT i = 0; i < meshBoneCount; ++i)
@@ -118,6 +102,19 @@ void SkeletalMeshPart::Create_Bone(aiMesh* mesh)
 			m_BoneWeightVertexs[vertexID].AddBoneData(boneIndex, weight);
 		}
 	}
-
 	CreateBoneWeightVertexBuffer(&m_BoneWeightVertexs[0], (UINT)m_BoneWeightVertexs.size());
+
+
+	// 인덱스 정보 생성
+	unique_ptr<UINT[]> indices(new UINT[mesh->mNumFaces * 3]);
+
+	for (UINT i = 0; i < mesh->mNumFaces; ++i)
+	{
+		indices[i * 3 + 0] = mesh->mFaces[i].mIndices[0];
+		indices[i * 3 + 1] = mesh->mFaces[i].mIndices[1];
+		indices[i * 3 + 2] = mesh->mFaces[i].mIndices[2];
+	}
+
+	CreateIndexBuffer(indices.get(), mesh->mNumFaces * 3);
+
 }

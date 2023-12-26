@@ -1,19 +1,23 @@
 #pragma once
 #include "SkeletalMeshPart.h"
-
+#include"Node.h"
 class FullSkeletonMesh
 {
+	GameObject* m_owner;
 public:
+	FullSkeletonMesh();
+	~FullSkeletonMesh();
 	std::string m_FBXName;
 	std::string m_FilePath;
-	std::vector<SkeletalMeshPart*> m_pSkeletalMeshPart;
-
+	std::vector<SkeletalMeshPart> m_pSkeletalMeshPart;
+	std::vector<Material> m_Materials;
+	Node res;
 	bool Create(std::string _FilePath);
 	inline void SetFBXName(std::string _FBXName);
 	inline void SetFilePath(std::string _FilePath);
 	inline std::string GetFBXName();
 	inline std::string GetFilePath();
-	void AddSkeletalMeshPart(SkeletalMeshPart* _pSkeletalMeshPart);
+	//void AddSkeletalMeshPart(SkeletalMeshPart _pSkeletalMeshPart);
 
 };
 
@@ -38,8 +42,8 @@ inline std::string FullSkeletonMesh::GetFilePath()
 }
 
 
-inline void FullSkeletonMesh::AddSkeletalMeshPart(SkeletalMeshPart* _pSkeletalMeshPart)
-{
-	m_pSkeletalMeshPart.push_back(_pSkeletalMeshPart);
-}
-
+//inline void FullSkeletonMesh::AddSkeletalMeshPart(SkeletalMeshPart _pSkeletalMeshPart)
+//{
+//	m_pSkeletalMeshPart.push_back(_pSkeletalMeshPart);
+//}
+//

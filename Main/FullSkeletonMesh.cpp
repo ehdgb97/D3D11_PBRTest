@@ -8,6 +8,14 @@
 #include "Helper.h"
 #include "D3DRenderManager.h"
 
+FullSkeletonMesh::FullSkeletonMesh()
+{
+}
+
+FullSkeletonMesh::~FullSkeletonMesh()
+{
+}
+
 bool FullSkeletonMesh::Create(std::string _FilePath)
 {
 
@@ -30,38 +38,18 @@ bool FullSkeletonMesh::Create(std::string _FilePath)
     }
     m_Materials.resize(scene->mNumMaterials);
     for (unsigned int i = 0; i < scene->mNumMaterials; ++i)
-    {
-        m_Materials[i] = new Material();
-        m_Materials[i]->Create(D3DRenderManager::m_pDevice, scene->mMaterials[i]);
-    }
+        m_Materials[i].Create(scene->mMaterials[i]);
 
-    m_Meshes.resize(scene->mNumMeshes);
+    m_pSkeletalMeshPart.resize(scene->mNumMeshes);
 
 
     for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
-    {
-        m_Meshes[i] = new Mesh(this);
-        if (scene->mMeshes[i]->HasBones())
-        {
-            m_Meshes[i]->Create_Bone(scene->mMeshes[i]);
-        }
-        else
-        {
-            m_Meshes[i]->Create(scene->mMeshes[i]);
-        }
-    }
-    m_rootNode = make_shared<Node>(this);
-    m_rootNode->Create(scene->mRootNode);
+		m_pSkeletalMeshPart[i].Create_Bone(scene->mMeshes[i]);
 
-    //m_pAnimation.resize(scene->mNumAnimations);
-    //for (size_t i = 0; i < scene->mNumAnimations; ++i)
-    //{
-    //    m_pAnimation[i] = new Animation(this, scene->mAnimations[i]->mDuration);
-    //    for (size_t j = 0; j < scene->mAnimations[i]->mNumChannels; j++)
-    //    {
-    //        m_pAnimation[i]->Create(scene->mAnimations[i]->mChannels[j]);
-    //    }
-    //}
+    //m_rootNode = make_shared<Node>(this);
+    //m_rootNode->Create(scene->mRootNode);
+
+
 
     importer.FreeScene();
     return true;

@@ -17,7 +17,7 @@ public:
 	CB_Material m_materialCB;
 
 	
-	void Create(ID3D11Device* device,aiMaterial* pMaterial);
+	void Create(aiMaterial* pMaterial);
 	void Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB);
 	ID3D11ShaderResourceView* m_pDiffuseRV = nullptr;	// 咆胶贸 府家胶 轰.
 	ID3D11ShaderResourceView* m_pNormalRV = nullptr;	// 畴富甘 府家胶 轰.

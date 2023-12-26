@@ -46,6 +46,12 @@
     <Filter Include="소스 파일\GameObject\Mesh\SkeletalMesh">
       <UniqueIdentifier>{7bb111a8-7fd3-4461-98ce-3d3bd2332997}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\GameObject\Mesh\SkeletalMesh\소스">
+      <UniqueIdentifier>{448cb64d-04fc-4158-be1e-bc75899da15f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\GameObject\Mesh\SkeletalMesh\헤더">
+      <UniqueIdentifier>{4343ce3d-f0ef-4ad1-a0bf-340d0ec14264}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -87,9 +93,6 @@
     <ClInclude Include="BoneReference.h">
       <Filter>소스 파일\GameObject\BoneReference</Filter>
     </ClInclude>
-    <ClInclude Include="SkeletalMeshPart.h">
-      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -97,7 +100,13 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="FullSkeletonMesh.h">
-      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh</Filter>
+      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh\헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletalMeshPart.h">
+      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh\헤더</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh\헤더</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -140,9 +149,6 @@
     <ClCompile Include="BoneReference.cpp">
       <Filter>소스 파일\GameObject\BoneReference</Filter>
     </ClCompile>
-    <ClCompile Include="SkeletalMeshPart.cpp">
-      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -150,7 +156,13 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="FullSkeletonMesh.cpp">
-      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh</Filter>
+      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh\소스</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletalMeshPart.cpp">
+      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh\소스</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh\소스</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

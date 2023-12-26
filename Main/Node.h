@@ -23,6 +23,7 @@ private:
 	
 	string m_name = {};
 public:
+	Node();
 	Node(GameObject* Own);
 	~Node();
 

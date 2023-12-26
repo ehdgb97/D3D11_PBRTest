@@ -7,7 +7,6 @@
 #include <map>
 
 using namespace DirectX;
-
 Mesh::Mesh(GameObject* owner)
 {
 	m_owner = owner;

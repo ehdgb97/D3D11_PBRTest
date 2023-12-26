@@ -3,6 +3,8 @@
 #include "BoneReference.h"
 #include "ConstantBuffers.h"
 #include "Material.h"
+#include "Skeleton.h"
+
 class SkeletalMeshPart
 {
 public:
@@ -17,6 +19,7 @@ public:
 
 	vector<BoneWeightVertex> m_BoneWeightVertexs;
 	vector<BoneReference> m_BoneReferences;
+	Skeleton m_Skeleton;
 	CB_MatrixPallete m_matrixPalleteCB;
 	UINT m_VertexCount = 0;
 	UINT m_VertexBufferStride = 0;						// 버텍스 하나의 크기.

@@ -2,6 +2,7 @@
 #include "Helper.h"
 #include "Material.h"
 #include "ConstantBuffers.h"
+#include "D3DRenderManager.h"
 
 
 
@@ -22,7 +23,7 @@ Material::~Material()
 
 }
 
-void Material::Create(ID3D11Device* device,aiMaterial* pMaterial)
+void Material::Create(aiMaterial* pMaterial)
 {
 	// Diffuse
 	aiString texturePath;
@@ -41,7 +42,7 @@ void Material::Create(ID3D11Device* device,aiMaterial* pMaterial)
 			path.replace_extension(".png");
 		}
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(device, finalPath.c_str(), &m_pDiffuseRV));
+		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pDiffuseRV));
 	}// 텍스처 로딩 시도
 	else
 	{
@@ -50,7 +51,7 @@ void Material::Create(ID3D11Device* device,aiMaterial* pMaterial)
 		if (pMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, color) == AI_SUCCESS) 
 		{
 		DirectX::XMFLOAT3 defaultColor = DirectX::XMFLOAT3(color.r, color.g, color.b);
-		HR_T(CreateTextureFromColor(device, defaultColor, &m_pDiffuseRV));
+		HR_T(CreateTextureFromColor(D3DRenderManager::m_pDevice, defaultColor, &m_pDiffuseRV));
 		}
 		// 기본 색상으로 텍스처를 생성
 	}
@@ -64,14 +65,14 @@ void Material::Create(ID3D11Device* device,aiMaterial* pMaterial)
 			path.replace_extension(".png");
 		}
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(device, finalPath.c_str(), &m_pNormalRV));
+		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pNormalRV));
 	}
 
 	if (AI_SUCCESS == pMaterial->GetTexture(aiTextureType_SPECULAR, 0, &texturePath))
 	{
 		path = ToWString(string(texturePath.C_Str()));
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(device, finalPath.c_str(), &m_pSpecularRV));
+		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pSpecularRV));
 	}
 
 
@@ -79,7 +80,7 @@ void Material::Create(ID3D11Device* device,aiMaterial* pMaterial)
 	{
 		path = ToWString(string(texturePath.C_Str()));
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(device, finalPath.c_str(), &m_pEmissiveRV));
+		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pEmissiveRV));
 	}
 
 
@@ -87,19 +88,19 @@ void Material::Create(ID3D11Device* device,aiMaterial* pMaterial)
 	{
 		path = ToWString(string(texturePath.C_Str()));
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(device, finalPath.c_str(), &m_pOpacityRV));
+		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pOpacityRV));
 	}
 	if (AI_SUCCESS == pMaterial->GetTexture(aiTextureType_METALNESS, 0, &texturePath))
 	{
 		path = ToWString(string(texturePath.C_Str()));
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(device, finalPath.c_str(), &m_pMetalnessRV));
+		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pMetalnessRV));
 	}
 	if (AI_SUCCESS == pMaterial->GetTexture(aiTextureType_SHININESS, 0, &texturePath))
 	{
 		path = ToWString(string(texturePath.C_Str()));
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(device, finalPath.c_str(), &m_pRoughnessRV));
+		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pRoughnessRV));
 	}
 
 	/// TextureType 확인용도!!!

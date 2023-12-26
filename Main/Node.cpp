@@ -7,6 +7,10 @@
 
 
 
+Node::Node()
+{
+}
+
 Node::Node(GameObject* Own)
 {
 	owner = Own;

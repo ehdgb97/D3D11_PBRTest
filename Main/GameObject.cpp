@@ -31,7 +31,7 @@ bool GameObject::SetFBX(string Filename)
     for (unsigned int i = 0; i < scene->mNumMaterials; ++i)
     {
         m_Materials[i] = new Material();
-        m_Materials[i]->Create(D3DRenderManager::m_pDevice, scene->mMaterials[i]);
+        m_Materials[i]->Create(scene->mMaterials[i]);
     }
 
     m_Meshes.resize(scene->mNumMeshes);
