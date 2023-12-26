@@ -2,6 +2,7 @@
 #include <windows.h>
 #include "TimeSystem.h"
 #include "D3DRenderManager.h"
+#include "ResourceManager.h"
 
 #define MAX_LOADSTRING 100
 class	MainApp
@@ -27,7 +28,7 @@ public:
 	UINT m_ClientWidth;
 	UINT m_ClientHeight;
 	D3DRenderManager m_D3DRenderer;
-
+	ResourceManager m_ResourceManager;
 	UINT GetClientWidth() { return m_ClientWidth; }
 	UINT GetClientHeight() { return m_ClientHeight; }
 

@@ -14,7 +14,7 @@ class Material
 public:
 	Material();
 	~Material();
-	CB_Material m_materialCB;
+	CB_Material m_MaterialCB;
 
 	
 	void Create(aiMaterial* pMaterial);

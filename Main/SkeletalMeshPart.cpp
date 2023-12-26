@@ -56,10 +56,9 @@ void SkeletalMeshPart::CreateIndexBuffer(UINT* indices, UINT indexCount)
 }
 
 
-void SkeletalMeshPart::Create_Bone(aiMesh* mesh)
+void SkeletalMeshPart::Create_Bone(aiMesh* mesh,Node* RootNode)
 {
-	m_name = mesh->mName.C_Str();
-
+	m_Name = mesh->mName.C_Str();
 	// 버텍스 정보 생성
 	unique_ptr<BoneWeightVertex[]> vertices(new BoneWeightVertex[mesh->mNumVertices]);
 	for (UINT i = 0; i < mesh->mNumVertices; ++i)
@@ -116,5 +115,22 @@ void SkeletalMeshPart::Create_Bone(aiMesh* mesh)
 	}
 
 	CreateIndexBuffer(indices.get(), mesh->mNumFaces * 3);
+
+}
+void SkeletalMeshPart::UpdateMatrixPallete(ID3D11DeviceContext* deviceContext, ID3D11Buffer* m_pBoneTransformBuffer)
+{
+	//for (auto a : m_owner->GetNodes())
+	//	for (auto& b : m_BoneReferences)
+	//		if (a->GetName() == b.m_nodeName)
+	//			b.m_pConnectNode = a;
+
+	// 본 트랜스폼 계산
+	assert(m_BoneReferences.size() < 128);
+	for (UINT i = 0; i < m_BoneReferences.size(); i++)
+	{
+		Matrix BoneNodeWorldMatrix = m_BoneReferences[i].m_pConnectNode->GetTransform();
+		m_matrixPalleteCB.Array[i] = (m_BoneReferences[i].m_offsetMatrix * BoneNodeWorldMatrix);
+		m_matrixPalleteCB.Array[i] = m_matrixPalleteCB.Array[i].Transpose();
+	}
 
 }

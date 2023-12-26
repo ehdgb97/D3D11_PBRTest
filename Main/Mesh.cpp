@@ -170,11 +170,11 @@ void Mesh::Create_Bone(aiMesh* mesh)
 }
 void Mesh::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB, ID3D11Buffer* m_pTransformCB, ID3D11Buffer* m_pBoneTransformBuffer, CB_Transform* test)
 {
-	m_pMaterial->m_materialCB.Ambient = m_owner->GetMaterialCB().Ambient;
-	m_pMaterial->m_materialCB.Diffuse = m_owner->GetMaterialCB().Diffuse;
-	m_pMaterial->m_materialCB.Emissive = m_owner->GetMaterialCB().Emissive;
-	m_pMaterial->m_materialCB.Specular= m_owner->GetMaterialCB().Specular;
-	m_pMaterial->m_materialCB.SpecularPower= m_owner->GetMaterialCB().SpecularPower;
+	m_pMaterial->m_MaterialCB.Ambient = m_owner->GetMaterialCB().Ambient;
+	m_pMaterial->m_MaterialCB.Diffuse = m_owner->GetMaterialCB().Diffuse;
+	m_pMaterial->m_MaterialCB.Emissive = m_owner->GetMaterialCB().Emissive;
+	m_pMaterial->m_MaterialCB.Specular= m_owner->GetMaterialCB().Specular;
+	m_pMaterial->m_MaterialCB.SpecularPower= m_owner->GetMaterialCB().SpecularPower;
 
 	m_pMaterial->Render(m_pDeviceContext, m_pAlphaBlendState, m_pMaterialCB);
 	m_pDeviceContext->UpdateSubresource(m_pTransformCB, 0, nullptr, test, 0, 0);

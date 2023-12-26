@@ -135,7 +135,7 @@ bool GameObject::Render(ID3D11DeviceContext* m_pDeviceContext,ID3D11BlendState* 
 
 void GameObject::SetMaterialCB(CB_Material materialcb)
 {
-    this->m_materialCB = materialcb;
+    this->m_MaterialCB = materialcb;
 }
 
 Matrix GameObject::GetWorld()
@@ -145,5 +145,5 @@ Matrix GameObject::GetWorld()
 
 CB_Material GameObject::GetMaterialCB()
 {
-    return m_materialCB;
+    return m_MaterialCB;
 }

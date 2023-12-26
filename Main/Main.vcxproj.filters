@@ -105,8 +105,8 @@
     <ClInclude Include="SkeletalMeshPart.h">
       <Filter>소스 파일\GameObject\Mesh\SkeletalMesh\헤더</Filter>
     </ClInclude>
-    <ClInclude Include="Skeleton.h">
-      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh\헤더</Filter>
+    <ClInclude Include="TexturePack.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,8 +161,8 @@
     <ClCompile Include="SkeletalMeshPart.cpp">
       <Filter>소스 파일\GameObject\Mesh\SkeletalMesh\소스</Filter>
     </ClCompile>
-    <ClCompile Include="Skeleton.cpp">
-      <Filter>소스 파일\GameObject\Mesh\SkeletalMesh\소스</Filter>
+    <ClCompile Include="TexturePack.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

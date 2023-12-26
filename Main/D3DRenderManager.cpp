@@ -85,8 +85,8 @@ void D3DRenderManager::Update()
 
 	///라이트 계산
 	{
-		m_directionLightCB.Direction.Normalize();
-		m_directionLightCB.EyePosition = m_cameraTrans;
+		m_DirectionLightCB.Direction.Normalize();
+		m_DirectionLightCB.EyePosition = m_cameraTrans;
 	}
 	///매쉬 셋팅 모음.
 	{
@@ -132,7 +132,7 @@ void D3DRenderManager::Render()
 		m_pDeviceContext->PSSetConstantBuffers(2, 1, &m_pMaterialCB);
 		m_pDeviceContext->PSSetSamplers(0, 1, &m_pSamplerLinear);
 	}
-	m_pDeviceContext->UpdateSubresource(m_pDirectionLightCB, 0, nullptr, &m_directionLightCB, 0, 0);
+	m_pDeviceContext->UpdateSubresource(m_pDirectionLightCB, 0, nullptr, &m_DirectionLightCB, 0, 0);
 	for (auto object : mGameobject)
 	{
 		CB_Transform test;
@@ -287,23 +287,23 @@ void D3DRenderManager::Render()
 			{
 				ImGui::Text("Use BlinnPhong:");
 				ImGui::SameLine(150);
-				ImGui::Checkbox("##Check BlinnPhong", &m_directionLightCB.UseBlinnPhong);
+				ImGui::Checkbox("##Check BlinnPhong", &m_DirectionLightCB.UseBlinnPhong);
 
 				ImGui::Text("Light Direction:");
 				ImGui::SameLine(150);
-				ImGui::DragFloat3("##SliderLightDir", reinterpret_cast<float*>(&m_directionLightCB.Direction), 0.01f, -1.f, 1.f);
+				ImGui::DragFloat3("##SliderLightDir", reinterpret_cast<float*>(&m_DirectionLightCB.Direction), 0.01f, -1.f, 1.f);
 
 				ImGui::Text("Light Ambient:");
 				ImGui::SameLine(150);
-				ImGui::ColorEdit4("##EditDirectionAmbient", reinterpret_cast<float*>(&m_directionLightCB.Ambient));
+				ImGui::ColorEdit4("##EditDirectionAmbient", reinterpret_cast<float*>(&m_DirectionLightCB.Ambient));
 
 				ImGui::Text("Light Diffuse:");
 				ImGui::SameLine(150);
-				ImGui::ColorEdit4("##EditDirectionDiffuse", reinterpret_cast<float*>(&m_directionLightCB.Diffuse));
+				ImGui::ColorEdit4("##EditDirectionDiffuse", reinterpret_cast<float*>(&m_DirectionLightCB.Diffuse));
 
 				ImGui::Text("Light Specular:");
 				ImGui::SameLine(150);
-				ImGui::ColorEdit4("##EditDirectionSpecular", reinterpret_cast<float*>(&m_directionLightCB.Specular));
+				ImGui::ColorEdit4("##EditDirectionSpecular", reinterpret_cast<float*>(&m_DirectionLightCB.Specular));
 
 
 

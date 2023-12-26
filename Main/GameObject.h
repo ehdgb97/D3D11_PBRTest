@@ -14,7 +14,7 @@ class GameObject
 {
 	Matrix mLocalTransformMatrix;
 	Matrix     mWorld;		// 월드좌표계 공간으로 변환을 위한 행렬.
-	CB_Material m_materialCB;
+	CB_Material m_MaterialCB;
 	vector< Mesh*> m_Meshes;
 	vector< Material*> m_Materials;
 	shared_ptr<Node> m_rootNode;

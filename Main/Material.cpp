@@ -41,6 +41,7 @@ void Material::Create(aiMaterial* pMaterial)
 			// 확장자 변경
 			path.replace_extension(".png");
 		}
+
 		finalPath = basePath + path.filename().wstring();
 		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pDiffuseRV));
 	}// 텍스처 로딩 시도
@@ -117,13 +118,13 @@ void Material::Create(aiMaterial* pMaterial)
 
 void Material::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB)
 {
-	m_materialCB.Use_DiffuseMap = m_pDiffuseRV != nullptr ? true : false;
-	m_materialCB.Use_NormalMap = m_pNormalRV != nullptr ? true : false;
-	m_materialCB.Use_SpecularMap = m_pSpecularRV != nullptr ? true : false;
-	m_materialCB.Use_EmissiveMap = m_pEmissiveRV != nullptr ? true : false;
-	m_materialCB.Use_OpacityMap = m_pOpacityRV != nullptr ? true : false;
-	m_materialCB.Use_MetalnessMap = m_pMetalnessRV != nullptr ? true : false;
-	m_materialCB.Use_RoughnessMap = m_pRoughnessRV != nullptr ? true : false;
+	m_MaterialCB.Use_DiffuseMap = m_pDiffuseRV != nullptr ? true : false;
+	m_MaterialCB.Use_NormalMap = m_pNormalRV != nullptr ? true : false;
+	m_MaterialCB.Use_SpecularMap = m_pSpecularRV != nullptr ? true : false;
+	m_MaterialCB.Use_EmissiveMap = m_pEmissiveRV != nullptr ? true : false;
+	m_MaterialCB.Use_OpacityMap = m_pOpacityRV != nullptr ? true : false;
+	m_MaterialCB.Use_MetalnessMap = m_pMetalnessRV != nullptr ? true : false;
+	m_MaterialCB.Use_RoughnessMap = m_pRoughnessRV != nullptr ? true : false;
 	m_pDeviceContext->PSSetShaderResources(0, 1, &m_pDiffuseRV);
 	m_pDeviceContext->PSSetShaderResources(1, 1, &m_pNormalRV);
 	m_pDeviceContext->PSSetShaderResources(2, 1, &m_pSpecularRV);
@@ -137,12 +138,12 @@ void Material::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m
 
 
 
-	if (m_materialCB.Use_OpacityMap)
+	if (m_MaterialCB.Use_OpacityMap)
 		m_pDeviceContext->OMSetBlendState(m_pAlphaBlendState, nullptr, 0xffffffff); // 알파블렌드 상태설정 , 다른옵션은 기본값 
 	else
 		m_pDeviceContext->OMSetBlendState(nullptr, nullptr, 0xffffffff);	// 설정해제 , 다른옵션은 기본값
 
-	m_pDeviceContext->UpdateSubresource(m_pMaterialCB, 0, nullptr, &m_materialCB, 0, 0);
+	m_pDeviceContext->UpdateSubresource(m_pMaterialCB, 0, nullptr, &m_MaterialCB, 0, 0);
 
 
 }

@@ -69,9 +69,9 @@ public:
 	Vector2 m_cameraDistance;
 	float	m£ßcameraFov;
 
-	CB_Transform m_transformCB;
-	CB_DirectionLight m_directionLightCB;
-	CB_Material m_materialCB;
+	CB_Transform m_TransformCB;
+	CB_DirectionLight m_DirectionLightCB;
+	CB_Material m_MaterialCB;
 
 	vector<GameObject*> mGameobject;
 

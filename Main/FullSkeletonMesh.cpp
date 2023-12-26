@@ -20,7 +20,6 @@ bool FullSkeletonMesh::Create(std::string _FilePath)
 {
 
     // 8. FBX Loading
-
 	Assimp::Importer importer;
     unsigned int importFlags = aiProcess_Triangulate |
         aiProcess_GenNormals |
@@ -42,12 +41,11 @@ bool FullSkeletonMesh::Create(std::string _FilePath)
 
     m_pSkeletalMeshPart.resize(scene->mNumMeshes);
 
+    m_rootNode.Create(scene->mRootNode);
 
     for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
-		m_pSkeletalMeshPart[i].Create_Bone(scene->mMeshes[i]);
+		m_pSkeletalMeshPart[i].Create_Bone(scene->mMeshes[i], &m_rootNode);
 
-    //m_rootNode = make_shared<Node>(this);
-    //m_rootNode->Create(scene->mRootNode);
 
 
 

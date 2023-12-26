@@ -13,14 +13,15 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <string>
 #include <DirectXMath.h>
 #include <wrl/client.h>
 #include <directxtk/SimpleMath.h>
 #include <d3d11.h>
-#include <string>
 #include <filesystem>
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <wrl.h>
+
 using Microsoft::WRL::ComPtr;
 #endif //PCH_H
