@@ -3,11 +3,12 @@
 using namespace std;
 using namespace DirectX::SimpleMath;
 
+struct aiAnimation;
 struct aiNodeAnim;
 class GameObject;
 struct AnimationKey
 {
-	float Time;
+	double Time;
 	Vector3 Position;
 	Quaternion Rotation;
 	Vector3 Scaling;
@@ -32,14 +33,14 @@ public:
 	bool IsPlayed=true;
 
 public:
-	Animation(GameObject* _owner, float Duration);
+	Animation(GameObject* _owner);
 	~Animation();
 
 public:
 	float m_Duration;
-	float m_AnimeinitDuration;
+	double m_AnimeinitDuration;
 	vector<pair<vector<AnimationKey>,NodeAnimationinfo>> m_Animation;
-	void Create(aiNodeAnim* nodeAnimation);
+	void Create(aiAnimation* Animation);
 	void Render();
 	void Update();
 	float GetDuration();

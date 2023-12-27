@@ -55,11 +55,8 @@ bool GameObject::SetFBX(string Filename)
     m_pAnimation.resize(scene->mNumAnimations);
     for (size_t i = 0; i < scene->mNumAnimations; ++i)
     {
-        m_pAnimation[i] = new Animation(this, scene->mAnimations[i]->mDuration);
-        for (size_t j = 0; j < scene->mAnimations[i]->mNumChannels; j++)
-        {
-            m_pAnimation[i]->Create(scene->mAnimations[i]->mChannels[j]);
-        }
+        m_pAnimation[i] = new Animation(this);
+        m_pAnimation[i]->Create(scene->mAnimations[i]);
     }
 
     importer.FreeScene();

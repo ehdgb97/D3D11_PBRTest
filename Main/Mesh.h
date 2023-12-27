@@ -34,9 +34,9 @@ public:
 	void Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB, ID3D11Buffer* m_pTransformCB, ID3D11Buffer* m_pBoneTransformBuffer, CB_Transform* test);
 	void UpdateMatrixPallete(ID3D11DeviceContext* deviceContext, ID3D11Buffer* m_pBoneTransformBuffer);
 	GameObject*  m_owner;
-	ID3D11Buffer* m_pVertexBuffer;
-	ID3D11Buffer* m_pIndexBuffer;
-	Material* m_pMaterial;
+	ID3D11Buffer* m_pVertexBuffer = nullptr;
+	ID3D11Buffer* m_pIndexBuffer=nullptr;
+	Material* m_pMaterial = nullptr;
 
 	vector<BoneWeightVertex> m_BoneWeightVertexs;
 	vector<BoneReference> m_BoneReferences;

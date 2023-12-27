@@ -3,49 +3,47 @@
 #include"GameObject.h"
 #include "TimeSystem.h"
 
-Animation::Animation(GameObject* _owner, float Duration)
+Animation::Animation(GameObject* _owner)
 {
 	m_owner = _owner;
-	m_AnimeinitDuration =Duration;
-	m_Duration = 10;
+
 }
 
 Animation::~Animation()
 {
 }
-
-void Animation::Create(aiNodeAnim* nodeAnimation)
+void Animation::Create(aiAnimation* Animation)
 {
+	assert(Animation != nullptr);
+	m_AnimeinitDuration = Animation->mDuration;
+	m_Duration = Animation->mDuration / Animation->mTicksPerSecond;
 
-	assert(nodeAnimation != nullptr);
-	assert(nodeAnimation->mNumPositionKeys == nodeAnimation->mNumRotationKeys);
-	assert(nodeAnimation->mNumRotationKeys == nodeAnimation->mNumScalingKeys);
+	for (size_t i = 0; i < Animation->mNumChannels; i++)
+	{
+		assert(Animation->mChannels[i] != nullptr);
+		assert(Animation->mChannels[i]->mNumPositionKeys == Animation->mChannels[i]->mNumRotationKeys);
+		assert(Animation->mChannels[i]->mNumRotationKeys == Animation->mChannels[i]->mNumScalingKeys);
+		vector<AnimationKey> m_AnimationKeys;
+		NodeAnimationinfo animeinfo = { };
+		animeinfo.CurrentKey = 0;
+		animeinfo.NumKey = Animation->mChannels[i]->mNumPositionKeys;
+		m_AnimationKeys.resize(animeinfo.NumKey);
+		for (size_t j = 0; j < animeinfo.NumKey; j++)
+		{
+			aiVectorKey& pos = Animation->mChannels[i]->mPositionKeys[j];
+			aiQuatKey& rot = Animation->mChannels[i]->mRotationKeys[j];
+			aiVectorKey& scl = Animation->mChannels[i]->mScalingKeys[j];
+			assert(pos.mTime == rot.mTime);
+			assert(rot.mTime == scl.mTime);
 
-
-	vector<AnimationKey> m_AnimationKeys;
-	NodeAnimationinfo animeinfo = { };
-	animeinfo.CurrentKey = 0;
-	animeinfo.NumKey= nodeAnimation->mNumPositionKeys;
-	m_AnimationKeys.resize(animeinfo.NumKey);
-	for (size_t i = 0;i < animeinfo.NumKey;i++)
-	{		
-		aiVectorKey& pos = nodeAnimation->mPositionKeys[i];
-		aiQuatKey& rot = nodeAnimation->mRotationKeys[i];
-		aiVectorKey& scl = nodeAnimation->mScalingKeys[i];
-
-		assert(pos.mTime == rot.mTime);
-		assert(rot.mTime == scl.mTime);
-
-		m_AnimationKeys[i].Time = pos.mTime;
-		m_AnimationKeys[i].Position = Vector3(pos.mValue.x,pos.mValue.y,pos.mValue.z);
-		m_AnimationKeys[i].Rotation = Quaternion(rot.mValue.x, rot.mValue.y, rot.mValue.z, rot.mValue.w);
-		m_AnimationKeys[i].Scaling = Vector3(scl.mValue.x,scl.mValue.y,scl.mValue.z);
+			m_AnimationKeys[j].Time = pos.mTime;
+			m_AnimationKeys[j].Position = Vector3(pos.mValue.x, pos.mValue.y, pos.mValue.z);
+			m_AnimationKeys[j].Rotation = Quaternion(rot.mValue.x, rot.mValue.y, rot.mValue.z, rot.mValue.w);
+			m_AnimationKeys[j].Scaling = Vector3(scl.mValue.x, scl.mValue.y, scl.mValue.z);
+		}
+		animeinfo.NodeName = Animation->mChannels[i]->mNodeName.C_Str();
+		m_Animation.push_back(make_pair(m_AnimationKeys, animeinfo));
 	}
-	
-	animeinfo.NodeName = nodeAnimation->mNodeName.C_Str();
-	m_Animation.push_back(make_pair(m_AnimationKeys,animeinfo));
-
-
 }
 
 void Animation::Render()
@@ -87,7 +85,6 @@ void Animation::Render()
 
 void Animation::Update()
 {
-	
 	for (size_t i = 0; i < m_owner->GetNodes().size(); i++)
 	{
 		for (size_t j = 0; j < m_Animation.size(); j++)

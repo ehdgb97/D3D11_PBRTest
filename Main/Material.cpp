@@ -1,10 +1,10 @@
 #include "pch.h"
-#include "Helper.h"
 #include "Material.h"
-#include "ConstantBuffers.h"
 #include "D3DRenderManager.h"
-#include "ResourceManager.h"
+#include "Helper.h"
+#include "ConstantBuffers.h"
 
+#include "ResourceManager.h"
 
 
 Material::Material()
@@ -14,13 +14,6 @@ Material::Material()
 
 Material::~Material()
 {
-	SAFE_RELEASE(m_pDiffuseRV);
-	SAFE_RELEASE(m_pNormalRV);
-	SAFE_RELEASE(m_pSpecularRV);
-	SAFE_RELEASE(m_pEmissiveRV);
-	SAFE_RELEASE(m_pOpacityRV);
-	SAFE_RELEASE(m_pMetalnessRV);
-	SAFE_RELEASE(m_pRoughnessRV);
 
 }
 
@@ -44,7 +37,7 @@ void Material::Create(aiMaterial* pMaterial)
 		}
 
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pDiffuseRV));
+		m_pDiffuseRV = ResourceManager::Instance->Search_TextureImage(finalPath);
 	}// 텍스처 로딩 시도
 	else
 	{
@@ -53,7 +46,7 @@ void Material::Create(aiMaterial* pMaterial)
 		if (pMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, color) == AI_SUCCESS) 
 		{
 		DirectX::XMFLOAT3 defaultColor = DirectX::XMFLOAT3(color.r, color.g, color.b);
-		HR_T(CreateTextureFromColor(D3DRenderManager::m_pDevice, defaultColor, &m_pDiffuseRV));
+		HR_T(CreateTextureFromColor(D3DRenderManager::m_pDevice, defaultColor, &m_pDiffuseRV->m_pTextureRV));
 		}
 		// 기본 색상으로 텍스처를 생성
 	}
@@ -67,16 +60,17 @@ void Material::Create(aiMaterial* pMaterial)
 			path.replace_extension(".png");
 		}
 		finalPath = basePath + path.filename().wstring();
+		m_pNormalRV = ResourceManager::Instance->Search_TextureImage(finalPath);
 
 
-		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pNormalRV));
 	}
 
 	if (AI_SUCCESS == pMaterial->GetTexture(aiTextureType_SPECULAR, 0, &texturePath))
 	{
 		path = ToWString(string(texturePath.C_Str()));
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pSpecularRV));
+		m_pSpecularRV = ResourceManager::Instance->Search_TextureImage(finalPath);
+
 	}
 
 
@@ -84,7 +78,8 @@ void Material::Create(aiMaterial* pMaterial)
 	{
 		path = ToWString(string(texturePath.C_Str()));
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pEmissiveRV));
+		m_pEmissiveRV = ResourceManager::Instance->Search_TextureImage(finalPath);
+
 	}
 
 
@@ -92,19 +87,21 @@ void Material::Create(aiMaterial* pMaterial)
 	{
 		path = ToWString(string(texturePath.C_Str()));
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pOpacityRV));
+		m_pOpacityRV = ResourceManager::Instance->Search_TextureImage(finalPath);
+
 	}
 	if (AI_SUCCESS == pMaterial->GetTexture(aiTextureType_METALNESS, 0, &texturePath))
 	{
 		path = ToWString(string(texturePath.C_Str()));
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pMetalnessRV));
+		m_pMetalnessRV = ResourceManager::Instance->Search_TextureImage(finalPath);
+
 	}
 	if (AI_SUCCESS == pMaterial->GetTexture(aiTextureType_SHININESS, 0, &texturePath))
 	{
 		path = ToWString(string(texturePath.C_Str()));
 		finalPath = basePath + path.filename().wstring();
-		HR_T(CreateTextureFromFile(D3DRenderManager::m_pDevice, finalPath.c_str(), &m_pRoughnessRV));
+		m_pRoughnessRV = ResourceManager::Instance->Search_TextureImage(finalPath);
 	}
 
 	/// TextureType 확인용도!!!
@@ -121,6 +118,7 @@ void Material::Create(aiMaterial* pMaterial)
 
 void Material::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB)
 {
+
 	m_MaterialCB.Use_DiffuseMap = m_pDiffuseRV != nullptr ? true : false;
 	m_MaterialCB.Use_NormalMap = m_pNormalRV != nullptr ? true : false;
 	m_MaterialCB.Use_SpecularMap = m_pSpecularRV != nullptr ? true : false;
@@ -128,17 +126,21 @@ void Material::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m
 	m_MaterialCB.Use_OpacityMap = m_pOpacityRV != nullptr ? true : false;
 	m_MaterialCB.Use_MetalnessMap = m_pMetalnessRV != nullptr ? true : false;
 	m_MaterialCB.Use_RoughnessMap = m_pRoughnessRV != nullptr ? true : false;
-	m_pDeviceContext->PSSetShaderResources(0, 1, &m_pDiffuseRV);
-	m_pDeviceContext->PSSetShaderResources(1, 1, &m_pNormalRV);
-	m_pDeviceContext->PSSetShaderResources(2, 1, &m_pSpecularRV);
-	m_pDeviceContext->PSSetShaderResources(3, 1, &m_pEmissiveRV);
-	m_pDeviceContext->PSSetShaderResources(4, 1, &m_pOpacityRV);
-	m_pDeviceContext->PSSetShaderResources(5, 1, &m_pMetalnessRV);
-	m_pDeviceContext->PSSetShaderResources(6, 1, &m_pRoughnessRV);
 
-
-
-
+	if (m_pDiffuseRV)
+		m_pDeviceContext->PSSetShaderResources(0, 1, m_pDiffuseRV->m_pTextureRV.GetAddressOf());
+	if (m_pNormalRV)
+		m_pDeviceContext->PSSetShaderResources(1, 1, m_pNormalRV->m_pTextureRV.GetAddressOf());
+	if (m_pSpecularRV)
+		m_pDeviceContext->PSSetShaderResources(2, 1, m_pSpecularRV->m_pTextureRV.GetAddressOf());
+	if (m_pEmissiveRV)
+		m_pDeviceContext->PSSetShaderResources(3, 1, m_pEmissiveRV->m_pTextureRV.GetAddressOf());
+	if (m_pOpacityRV)
+		m_pDeviceContext->PSSetShaderResources(4, 1, m_pOpacityRV->m_pTextureRV.GetAddressOf());
+	if (m_pMetalnessRV)
+		m_pDeviceContext->PSSetShaderResources(5, 1, m_pMetalnessRV->m_pTextureRV.GetAddressOf());
+	if (m_pRoughnessRV)
+		m_pDeviceContext->PSSetShaderResources(6, 1, m_pRoughnessRV->m_pTextureRV.GetAddressOf());
 
 
 	if (m_MaterialCB.Use_OpacityMap)
@@ -150,3 +152,4 @@ void Material::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m
 
 
 }
+	

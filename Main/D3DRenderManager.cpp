@@ -377,8 +377,8 @@ bool D3DRenderManager::InitD3D(UINT ClientWidth, UINT ClientHeight)
 	///6. ‰X½º&½ºÅÙ½Ç ºä »ý¼º
 	{
 		D3D11_TEXTURE2D_DESC descDepth = {};
-		descDepth.Width = m_viewport.Width;
-		descDepth.Height = m_viewport.Height;
+		descDepth.Width =(UINT) m_viewport.Width;
+		descDepth.Height = (UINT)m_viewport.Height;
 		descDepth.MipLevels = 1;
 		descDepth.ArraySize = 1;
 		descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
