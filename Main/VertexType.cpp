@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "BoneWeightVertex.h"
+#include "VertexType.h"
 
 void BoneWeightVertex::AddBoneData(int boneIndex, float weight)
 {

@@ -52,6 +52,9 @@
     <Filter Include="소스 파일\GameObject\Mesh\SkeletalMesh\헤더">
       <UniqueIdentifier>{4343ce3d-f0ef-4ad1-a0bf-340d0ec14264}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\GameObject\Mesh\StaticMesh">
+      <UniqueIdentifier>{cc7871af-16a8-4eb6-a604-44b247dd7d33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -87,7 +90,7 @@
     <ClInclude Include="Node.h">
       <Filter>소스 파일\GameObject\Node</Filter>
     </ClInclude>
-    <ClInclude Include="BoneWeightVertex.h">
+    <ClInclude Include="VertexType.h">
       <Filter>소스 파일\GameObject\BoneWeightVertex</Filter>
     </ClInclude>
     <ClInclude Include="BoneReference.h">
@@ -107,6 +110,12 @@
     </ClInclude>
     <ClInclude Include="TexturePack.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMeshPart.h">
+      <Filter>소스 파일\GameObject\Mesh\StaticMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMesh.h">
+      <Filter>소스 파일\GameObject\Mesh\StaticMesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -143,7 +152,7 @@
     <ClCompile Include="Node.cpp">
       <Filter>소스 파일\GameObject\Node</Filter>
     </ClCompile>
-    <ClCompile Include="BoneWeightVertex.cpp">
+    <ClCompile Include="VertexType.cpp">
       <Filter>소스 파일\GameObject\BoneWeightVertex</Filter>
     </ClCompile>
     <ClCompile Include="BoneReference.cpp">
@@ -163,6 +172,12 @@
     </ClCompile>
     <ClCompile Include="TexturePack.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMeshPart.cpp">
+      <Filter>소스 파일\GameObject\Mesh\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMesh.cpp">
+      <Filter>소스 파일\GameObject\Mesh\StaticMesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

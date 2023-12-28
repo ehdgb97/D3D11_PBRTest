@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Animation.h"
+#include "Node.h"
+
 #include"GameObject.h"
 #include "TimeSystem.h"
 
@@ -48,7 +50,6 @@ void Animation::Create(aiAnimation* Animation)
 
 void Animation::Render()
 {
-
 	if (IsPlayed)
 	{
 		const float deltatime = GameTimer::m_Instance->DeltaTime();
@@ -85,7 +86,29 @@ void Animation::Render()
 
 void Animation::Update()
 {
-	for (size_t i = 0; i < m_owner->GetNodes().size(); i++)
+	for (size_t i = 0; i < m_Animation.size(); i++)
+	{
+		if (m_owner->GetRootNode()->FindNode(m_Animation[i].second.NodeName))
+		{
+			NodeAnimationinfo nodeAniinfo = m_Animation[i].second;
+			Vector3 scale, pos;
+			Quaternion rot;
+			scale = Vector3::Lerp(
+				m_Animation[i].first[nodeAniinfo.CurrentKey].Scaling,
+				m_Animation[i].first[nodeAniinfo.CurrentKey + 1].Scaling,
+				nodeAniinfo.Ratio);
+			pos = Vector3::Lerp(
+				m_Animation[i].first[nodeAniinfo.CurrentKey].Position,
+				m_Animation[i].first[nodeAniinfo.CurrentKey + 1].Position,
+				nodeAniinfo.Ratio);
+			rot = Quaternion::Slerp(
+				m_Animation[i].first[nodeAniinfo.CurrentKey].Rotation,
+				m_Animation[i].first[nodeAniinfo.CurrentKey + 1].Rotation,
+				nodeAniinfo.Ratio);
+			m_owner->GetRootNode()->FindNode(m_Animation[i].second.NodeName)->SetAnimationMatrix(Matrix::CreateScale(scale) * Matrix::CreateFromQuaternion(rot) * Matrix::CreateTranslation(pos));
+		}
+	}
+	/*for (size_t i = 0; i < m_owner->GetNodes().size(); i++)
 	{
 		for (size_t j = 0; j < m_Animation.size(); j++)
 		{
@@ -111,5 +134,5 @@ void Animation::Update()
 
 			}
 		}
-	}  
+	}*/  
 }

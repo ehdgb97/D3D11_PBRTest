@@ -1,12 +1,15 @@
 #include "pch.h"
-#include"D3DRenderManager.h"
-#include "GameObject.h"
-
 #include <assimp/postprocess.h>
-
 #include "Helper.h"
+#include "GameObject.h"
+#include "Mesh.h"
+#include "Material.h"
+#include "Node.h"
+#include"BoneReference.h"
+#include"VertexType.h"
 
-struct CB_Transform;
+#include"D3DRenderManager.h"
+
 
 bool GameObject::SetFBX(string Filename)
 {
@@ -130,9 +133,19 @@ bool GameObject::Render(ID3D11DeviceContext* m_pDeviceContext,ID3D11BlendState* 
 }
 
 
+void GameObject::SetRootNode(const shared_ptr<Node>& rootNode)
+{
+    m_rootNode = rootNode;
+}
+
 void GameObject::SetMaterialCB(CB_Material materialcb)
 {
     this->m_MaterialCB = materialcb;
+}
+
+shared_ptr<Node> GameObject::GetRootNode() const
+{
+    return m_rootNode;	
 }
 
 Matrix GameObject::GetWorld()

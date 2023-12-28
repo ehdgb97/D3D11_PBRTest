@@ -1,12 +1,11 @@
 #include "pch.h"
 #include "SkeletalMeshPart.h"
 #include "D3DRenderManager.h"
-#include "pch.h"
-#include "Mesh.h"
 #include "GameObject.h"
+#include "Mesh.h"
+#include "Node.h"
 #include "Helper.h"
 #include "ConstantBuffers.h"
-#include <map>
 
 using namespace DirectX;
 

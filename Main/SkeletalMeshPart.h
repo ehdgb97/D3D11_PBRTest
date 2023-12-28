@@ -1,5 +1,5 @@
 #pragma once
-#include "BoneWeightVertex.h"
+#include "VertexType.h"
 #include "BoneReference.h"
 #include "ConstantBuffers.h"
 #include "Material.h"

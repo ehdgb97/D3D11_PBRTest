@@ -37,8 +37,8 @@ public:
 	~Animation();
 
 public:
-	float m_Duration;
-	double m_AnimeinitDuration;
+	float m_Duration=0;
+	double m_AnimeinitDuration=0;
 	vector<pair<vector<AnimationKey>,NodeAnimationinfo>> m_Animation;
 	void Create(aiAnimation* Animation);
 	void Render();

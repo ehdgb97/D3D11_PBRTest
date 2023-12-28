@@ -1,14 +1,15 @@
 #pragma once
 
-#include "ConstantBuffers.h"
-#include "Material.h"
-#include "Mesh.h"
-#include "node.h"
-#include"BoneReference.h"
-#include"BoneWeightVertex.h"
+
 #include "Animation.h"
 #include <string>
+#include "ConstantBuffers.h"
+
 class Node;
+class Material;
+class Mesh;
+class BoneReference;
+class BoneWeightVertex;
 
 class GameObject
 {
@@ -37,7 +38,11 @@ public:
 	void SetPos(Vector3 Pos);
 	void SetScale(Vector3 Scale);
 	void SetAngle(Vector3 Angle);
+
+	// Setter for m_rootNode
+	void SetRootNode(const shared_ptr<Node>& rootNode);
 	void SetMaterialCB(CB_Material materialcb);
+	shared_ptr<Node> GetRootNode() const;
 	Matrix GetWorld();
 	Vector3 GetPos();
 	Vector3 GetScale();

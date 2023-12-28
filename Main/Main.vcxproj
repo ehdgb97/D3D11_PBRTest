@@ -142,7 +142,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BoneReference.h" />
-    <ClInclude Include="BoneWeightVertex.h" />
+    <ClInclude Include="VertexType.h" />
     <ClInclude Include="ConstantBuffers.h" />
     <ClInclude Include="D3DRenderManager.h" />
     <ClInclude Include="framework.h" />
@@ -156,13 +156,15 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SkeletalMeshPart.h" />
+    <ClInclude Include="StaticMesh.h" />
+    <ClInclude Include="StaticMeshPart.h" />
     <ClInclude Include="TexturePack.h" />
     <ClInclude Include="TimeSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BoneReference.cpp" />
-    <ClCompile Include="BoneWeightVertex.cpp" />
+    <ClCompile Include="VertexType.cpp" />
     <ClCompile Include="ConstantBuffers.cpp" />
     <ClCompile Include="D3DRenderManager.cpp" />
     <ClCompile Include="FullSkeletonMesh.cpp" />
@@ -181,6 +183,8 @@
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SkeletalMeshPart.cpp" />
+    <ClCompile Include="StaticMesh.cpp" />
+    <ClCompile Include="StaticMeshPart.cpp" />
     <ClCompile Include="TexturePack.cpp" />
     <ClCompile Include="TimeSystem.cpp" />
   </ItemGroup>

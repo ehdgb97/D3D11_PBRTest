@@ -1,10 +1,13 @@
 #include "pch.h"
-#include "Mesh.h"
-#include "GameObject.h"
 #include "Helper.h"
+#include "Mesh.h"
+#include "Material.h"
+#include "BoneReference.h"
+#include "VertexType.h"
+#include "Node.h"
+#include "GameObject.h"
 #include "ConstantBuffers.h"
 #include "D3DRenderManager.h"
-#include <map>
 
 using namespace DirectX;
 Mesh::Mesh(GameObject* owner)

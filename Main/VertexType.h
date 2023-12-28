@@ -15,3 +15,11 @@ public:
 
 	void AddBoneData(int boneIndex, float weight);
 };
+
+struct Vertex
+{
+	Vector3 Position;		// 정점 위치 정보.	
+	Vector2 Texcoord;
+	Vector3 Normal;
+	Vector3 Tangent;
+};
