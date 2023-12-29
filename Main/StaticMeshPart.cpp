@@ -2,8 +2,6 @@
 #include "StaticMeshPart.h"
 #include "Helper.h"
 #include "D3DRenderManager.h"
-#include "VertexType.h"
-
 
 StaticMeshPart::StaticMeshPart()
 {

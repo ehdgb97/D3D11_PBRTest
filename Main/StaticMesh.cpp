@@ -1,13 +1,10 @@
 #include "pch.h"
-#include "Node.h"
 #include "StaticMesh.h"
-#include "Material.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <assimp/config.h>
 #include <assimp/cimport.h>
-#include "StaticMeshPart.h"
 
 #include "Helper.h"
 #include "D3DRenderManager.h"

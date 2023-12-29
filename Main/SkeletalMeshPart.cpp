@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "SkeletalMeshPart.h"
+#include "Material.h"
+
 #include "D3DRenderManager.h"
 #include "GameObject.h"
 #include "Mesh.h"

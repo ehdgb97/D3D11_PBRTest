@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "D3DRenderManager.h"
-#include "../Main/Helper.h"
+#include "GameObject.h"
+
+#include "Helper.h"
 #include <d3dcompiler.h>
 #include <imgui.h>
 #include <imgui_impl_win32.h>

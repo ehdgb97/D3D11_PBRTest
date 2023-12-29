@@ -2,8 +2,8 @@
 #include "Material.h"
 #include "D3DRenderManager.h"
 #include "Helper.h"
+#include "TexturePack.h"
 #include "ConstantBuffers.h"
-
 #include "ResourceManager.h"
 
 

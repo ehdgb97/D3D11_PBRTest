@@ -1,14 +1,15 @@
 #pragma once
-class GameObject;
-class StaticMeshPart;
-class Node;
+#include "StaticMeshPart.h"
+#include "Material.h"
+#include "Node.h"
+
 class Material;
+
 class StaticMesh
 {
 public:
 	StaticMesh();
 	~StaticMesh();
-	GameObject* m_owner = nullptr;
 	std::vector<StaticMeshPart> m_pStaticMeshPart;
 	std::vector<Material> m_Materials;
 	bool Create(std::string _FilePath);

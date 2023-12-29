@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BoneReference.h" />
+    <ClInclude Include="StaticMeshComponent.h" />
     <ClInclude Include="VertexType.h" />
     <ClInclude Include="ConstantBuffers.h" />
     <ClInclude Include="D3DRenderManager.h" />
@@ -164,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BoneReference.cpp" />
+    <ClCompile Include="StaticMeshComponent.cpp" />
     <ClCompile Include="VertexType.cpp" />
     <ClCompile Include="ConstantBuffers.cpp" />
     <ClCompile Include="D3DRenderManager.cpp" />

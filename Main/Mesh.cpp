@@ -189,10 +189,14 @@ void Mesh::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAl
 
 void Mesh::UpdateMatrixPallete(ID3D11DeviceContext* deviceContext, ID3D11Buffer* m_pBoneTransformBuffer)
 {
-	for (auto a : m_owner->GetNodes())
-		for (auto& b : m_BoneReferences)
-			if (a->GetName() == b.m_nodeName)
-				b.m_pConnectNode = a;
+	for (auto& b : m_BoneReferences)
+	{
+		if (m_owner->GetRootNode()->FindNode(b.m_nodeName))
+		{
+			b.m_pConnectNode = m_owner->GetRootNode()->FindNode(b.m_nodeName);
+		}
+
+	}
 
 	// 본 트랜스폼 계산
 	assert(m_BoneReferences.size() < 128);

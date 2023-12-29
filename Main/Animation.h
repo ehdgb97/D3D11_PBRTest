@@ -1,11 +1,11 @@
 #pragma once
+class GameObject;
+struct aiAnimation;
+struct aiNodeAnim;
 
 using namespace std;
 using namespace DirectX::SimpleMath;
 
-struct aiAnimation;
-struct aiNodeAnim;
-class GameObject;
 struct AnimationKey
 {
 	double Time;

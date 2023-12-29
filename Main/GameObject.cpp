@@ -1,13 +1,13 @@
 #include "pch.h"
 #include <assimp/postprocess.h>
-#include "Helper.h"
 #include "GameObject.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "Animation.h"
+#include "Helper.h"
 #include "Node.h"
 #include"BoneReference.h"
 #include"VertexType.h"
-
 #include"D3DRenderManager.h"
 
 
@@ -87,8 +87,9 @@ bool GameObject::Update(ID3D11DeviceContext* deviceContext, ID3D11Buffer* m_pBon
         this->m_pAnimation[this->AnimationIndex]->Update();
     }
 
-    for (auto node : m_Nodes)
-        node->Update();
+    m_rootNode->Update();
+    //for (auto node : m_Nodes)
+    //    node->Update();
 
     for (auto Meshes : m_Meshes)
     {

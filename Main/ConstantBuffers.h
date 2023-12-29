@@ -42,7 +42,6 @@ struct CB_DirectionLight
 	bool UseBlinnPhong = false;
 	bool pad1[3] = {};
 };
-
 struct CB_MatrixPallete
 {
 	Matrix Array[128];

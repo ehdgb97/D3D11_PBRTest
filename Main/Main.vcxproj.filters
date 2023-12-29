@@ -117,6 +117,9 @@
     <ClInclude Include="StaticMesh.h">
       <Filter>소스 파일\GameObject\Mesh\StaticMesh</Filter>
     </ClInclude>
+    <ClInclude Include="StaticMeshComponent.h">
+      <Filter>소스 파일\GameObject\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -178,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="StaticMesh.cpp">
       <Filter>소스 파일\GameObject\Mesh\StaticMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMeshComponent.cpp">
+      <Filter>소스 파일\GameObject\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

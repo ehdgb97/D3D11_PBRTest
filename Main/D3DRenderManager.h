@@ -1,13 +1,12 @@
 #pragma once
 #pragma once
-#include <memory>
-#include "TimeSystem.h"
-#include "GameObject.h"
 #include "ConstantBuffers.h"
+#include "TimeSystem.h"
 
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
-
+class GameObject;
+#include "GameObject.h"
 class D3DRenderManager
 {
 
@@ -57,7 +56,7 @@ public:
 
 	HWND m_hWnd = nullptr;
 
-	vector<shared_ptr<GameObject> > mGameobject;
+	vector<shared_ptr<GameObject>> mGameobject;
 
 	Vector3 m_meshRotationAngle;
 	bool m_meshRotationUse;

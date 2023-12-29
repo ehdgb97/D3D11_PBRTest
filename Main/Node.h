@@ -1,12 +1,9 @@
 #pragma once
-#include "Mesh.h"
-#include "GameObject.h"
-#include <string>
 using namespace std;
 using namespace DirectX::SimpleMath;
 struct aiNode;
 struct aiScene;
-
+class Mesh;
 struct CB_Transform;
 class GameObject;
 class Node

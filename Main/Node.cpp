@@ -2,6 +2,7 @@
 #include "Node.h"
 #include "Helper.h"
 #include <assimp/scene.h>
+#include "Mesh.h"
 
 #include "GameObject.h"
 
@@ -35,7 +36,7 @@ void Node::Create(aiNode* ai_Node)
 	m_relativeMatrix = XMMatrixTranspose(DirectX::XMMATRIX(ai_Node->mTransformation[0]));
 
 
-	m_Owner->GetNodes().push_back(this);
+	//m_Owner->GetNodes().push_back(this);
 
 	m_meshes.resize(ai_Node->mNumMeshes);
 	for (size_t i = 0; i < ai_Node->mNumMeshes; ++i)
@@ -56,7 +57,7 @@ void Node::Create(aiNode* ai_Node, Node* pParent)
 	this->m_pParent = pParent;
 	this->m_Owner = m_Owner;
 	m_relativeMatrix = XMMatrixTranspose(DirectX::XMMATRIX(ai_Node->mTransformation[0]));
-	m_Owner->GetNodes().push_back(this);
+	//m_Owner->GetNodes().push_back(this);
 
 	m_meshes.resize(ai_Node->mNumMeshes);
 	for (size_t i = 0; i < ai_Node->mNumMeshes; ++i)
@@ -111,7 +112,7 @@ void Node::Update()
 	}
 
 
-	for (auto node : m_Children)
+	for (auto& node : m_Children)
 		node.Update();
 }
 
@@ -123,7 +124,7 @@ void Node::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAl
 		mesh->Render( m_pDeviceContext,  m_pAlphaBlendState,  m_pMaterialCB, m_pTransformCB, m_pBoneTransformBuffer, test);
 	}
 
-	for (auto node : m_Children)
+	for (auto& node : m_Children)
 		node.Render(m_pDeviceContext, m_pAlphaBlendState, m_pMaterialCB, m_pTransformCB, m_pBoneTransformBuffer,test);
 
 }

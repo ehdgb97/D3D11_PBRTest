@@ -2,8 +2,6 @@
 #include "VertexType.h"
 #include "BoneReference.h"
 #include "ConstantBuffers.h"
-#include "Material.h"
-
 class SkeletalMeshPart
 {
 public:

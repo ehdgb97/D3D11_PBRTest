@@ -1,8 +1,9 @@
 #pragma once
+#include "VertexType.h"
+
 using namespace DirectX::SimpleMath;
 using namespace std;
 
-struct Vertex;
 
 class StaticMeshPart
 {

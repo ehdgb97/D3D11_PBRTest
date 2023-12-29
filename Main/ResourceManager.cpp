@@ -1,7 +1,11 @@
 #include "pch.h"
-#include "Helper.h"
 #include "ResourceManager.h"
-
+#include "Helper.h"
+#include "Mesh.h"
+#include "FullSkeletonMesh.h"
+#include"StaticMesh.h"
+#include"Animation.h"
+#include "TexturePack.h"
 ResourceManager* ResourceManager::Instance = nullptr;
 
 ResourceManager::ResourceManager()
@@ -53,5 +57,22 @@ std::shared_ptr<TextureImage> ResourceManager::Search_TextureImage(std::wstring 
 	pTextureImage->Create(_Filename);
 	m_TextureImageMap[_Filename] = pTextureImage;
 	return pTextureImage;
+}
+
+std::shared_ptr<StaticMesh> ResourceManager::Search_StaticMesh(std::string _Filename)
+{
+	auto it = m_resource_StaticMesh.find(_Filename);
+	if (it != m_resource_StaticMesh.end())
+	{
+		std::shared_ptr<StaticMesh> resourcePtr = it->second.lock();
+		if (resourcePtr)  //UseCount가 1이상이면 리턴.
+			return resourcePtr;
+		else  //UseCount가 0이라면 제거.
+			m_resource_StaticMesh.erase(it);
+	}
+	std::shared_ptr<StaticMesh> pStaticMesh = std::make_shared<StaticMesh>();
+	pStaticMesh->Create(_Filename);
+	m_resource_StaticMesh[_Filename] = pStaticMesh;
+	return pStaticMesh;
 }
 

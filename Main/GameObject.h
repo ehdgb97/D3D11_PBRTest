@@ -1,15 +1,24 @@
 #pragma once
 
-
+#include "GameObject.h"
+#include "Mesh.h"
+#include "Material.h"
 #include "Animation.h"
-#include <string>
+#include "Helper.h"
+#include "Node.h"
+#include"BoneReference.h"
+#include"VertexType.h"
 #include "ConstantBuffers.h"
-
+#include <string>
+struct AnimationKey;
+struct NodeAnimationinfo;
+class Animation;
 class Node;
 class Material;
 class Mesh;
 class BoneReference;
 class BoneWeightVertex;
+
 
 class GameObject
 {
@@ -19,7 +28,6 @@ class GameObject
 	vector< Mesh*> m_Meshes;
 	vector< Material*> m_Materials;
 	shared_ptr<Node> m_rootNode;
-	vector<Node*> m_Nodes;
 	vector <Animation*> m_pAnimation;
 	Vector3 m_position = {};
 	Vector3 m_scale = {.3f,.3f,.3f};
@@ -50,7 +58,7 @@ public:
 	CB_Material GetMaterialCB();
 	const vector<Mesh*>& GetMeshes() const;
 	const vector< Material*>& GetMaterials() const;
-	vector<Node*>& GetNodes();
+	//vector<Node*>& GetNodes();
 	void SetUseAni(bool Use);
 	bool GetUseAni();
 	const vector<Animation*>& GetAnimations() const;
@@ -103,10 +111,10 @@ inline const vector<Material*>& GameObject::GetMaterials() const
 {
 	return m_Materials;
 }
-inline vector<Node*>& GameObject::GetNodes()
-{
-	return m_Nodes;
-}
+//inline vector<Node*>& GameObject::GetNodes()
+//{
+//	return m_Nodes;
+//}
 inline const vector<Animation*>& GameObject::GetAnimations() const
 {
 	return m_pAnimation;

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "TexturePack.h"
-#include "Helper.h"
 #include "D3DRenderManager.h"
+#include "Helper.h"
 
 TextureImage::TextureImage()
 {}
