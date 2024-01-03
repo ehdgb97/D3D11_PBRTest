@@ -5,6 +5,7 @@ class StaticMeshComponent
 {
 public:
 	StaticMeshComponent();
+	StaticMeshComponent(string _FilePath);
 	~StaticMeshComponent();
 	std::shared_ptr<StaticMesh> m_pStaticMesh;
 	bool SetStaicMesh(string _FilePath);

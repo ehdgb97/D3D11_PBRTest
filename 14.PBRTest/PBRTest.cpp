@@ -32,6 +32,7 @@ bool PBRTest::Initialize(UINT Width, UINT Height)
 	__super::Initialize(Width, Height);
 
 	return true;
+	return true;
 }
 
 void PBRTest::Update()

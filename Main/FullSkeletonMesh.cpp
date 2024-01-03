@@ -47,9 +47,6 @@ bool FullSkeletonMesh::Create(std::string _FilePath)
     for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
 		m_pSkeletalMeshPart[i].Create_Bone(scene->mMeshes[i], &m_rootNode);
 
-
-
-
     importer.FreeScene();
     return true;
 

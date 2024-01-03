@@ -55,6 +55,9 @@
     <Filter Include="소스 파일\GameObject\Mesh\StaticMesh">
       <UniqueIdentifier>{cc7871af-16a8-4eb6-a604-44b247dd7d33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Manager">
+      <UniqueIdentifier>{d7fbbed5-0688-48f8-b046-04c569ed13d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -120,6 +123,9 @@
     <ClInclude Include="StaticMeshComponent.h">
       <Filter>소스 파일\GameObject\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -184,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="StaticMeshComponent.cpp">
       <Filter>소스 파일\GameObject\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

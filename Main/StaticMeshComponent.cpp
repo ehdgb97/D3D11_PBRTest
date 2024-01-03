@@ -5,6 +5,11 @@ StaticMeshComponent::StaticMeshComponent()
 {
 }
 
+StaticMeshComponent::StaticMeshComponent(string _FilePath)
+{
+	SetStaicMesh(_FilePath);
+}
+
 StaticMeshComponent::~StaticMeshComponent()
 {
 }

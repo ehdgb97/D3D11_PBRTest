@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Actor.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BoneReference.h" />
     <ClInclude Include="StaticMeshComponent.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="TimeSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BoneReference.cpp" />
     <ClCompile Include="StaticMeshComponent.cpp" />
