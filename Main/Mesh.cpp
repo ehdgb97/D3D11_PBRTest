@@ -178,8 +178,8 @@ void Mesh::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAl
 	m_pMaterial->m_MaterialCB.Emissive = m_owner->GetMaterialCB().Emissive;
 	m_pMaterial->m_MaterialCB.Specular= m_owner->GetMaterialCB().Specular;
 	m_pMaterial->m_MaterialCB.SpecularPower= m_owner->GetMaterialCB().SpecularPower;
-
 	m_pMaterial->Render(m_pDeviceContext, m_pAlphaBlendState, m_pMaterialCB);
+
 	m_pDeviceContext->UpdateSubresource(m_pTransformCB, 0, nullptr, test, 0, 0);
 	m_pDeviceContext->UpdateSubresource(m_pBoneTransformBuffer, 0, nullptr, &m_matrixPalleteCB, 0, 0);
 	m_pDeviceContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);

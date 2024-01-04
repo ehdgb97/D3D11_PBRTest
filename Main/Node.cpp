@@ -3,7 +3,7 @@
 #include "Helper.h"
 #include <assimp/scene.h>
 #include "Mesh.h"
-
+#include "Actor.h"
 #include "GameObject.h"
 
 
@@ -84,6 +84,7 @@ void Node::Update()
 	{
 		if (m_pParent)
 			matrix = m_pParent->mTransformation;
+
 		else
 			matrix = m_Owner->GetWorld();
 

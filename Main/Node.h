@@ -6,10 +6,12 @@ struct aiScene;
 class Mesh;
 struct CB_Transform;
 class GameObject;
+class Actor;
 class Node
 {
 private:
 	GameObject* m_Owner;
+	Actor* m_Ownera;
 	Node* m_pParent = nullptr;
 	vector<Mesh*> m_meshes = {};
 	vector<Node> m_Children = {};

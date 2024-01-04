@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "D3DRenderManager.h"
 #include "GameObject.h"
-
+#include "Actor.h"
 #include "Helper.h"
 #include <d3dcompiler.h>
 #include <imgui.h>

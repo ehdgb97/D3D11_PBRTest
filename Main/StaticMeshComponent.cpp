@@ -1,5 +1,7 @@
 #include "pch.h"
+#include "StaticMesh.h"
 #include "StaticMeshComponent.h"
+
 #include"ResourceManager.h"
 StaticMeshComponent::StaticMeshComponent()
 {
@@ -21,7 +23,10 @@ bool StaticMeshComponent::SetStaicMesh(string _FilePath)
 }
 
 
-bool StaticMeshComponent::Update()
+void StaticMeshComponent::Update(float DeltaTime)
 {
-	return true;
+}
+
+void StaticMeshComponent::Render()
+{
 }

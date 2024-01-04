@@ -58,6 +58,9 @@
     <Filter Include="소스 파일\Manager">
       <UniqueIdentifier>{d7fbbed5-0688-48f8-b046-04c569ed13d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Component">
+      <UniqueIdentifier>{5c48c91b-9027-40c3-84e2-bc5baa522b90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -120,11 +123,17 @@
     <ClInclude Include="StaticMesh.h">
       <Filter>소스 파일\GameObject\Mesh\StaticMesh</Filter>
     </ClInclude>
-    <ClInclude Include="StaticMeshComponent.h">
-      <Filter>소스 파일\GameObject\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletalMeshComponent.h">
+      <Filter>소스 파일\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMeshComponent.h">
+      <Filter>소스 파일\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>소스 파일\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -188,11 +197,17 @@
     <ClCompile Include="StaticMesh.cpp">
       <Filter>소스 파일\GameObject\Mesh\StaticMesh</Filter>
     </ClCompile>
-    <ClCompile Include="StaticMeshComponent.cpp">
-      <Filter>소스 파일\GameObject\Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="Actor.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletalMeshComponent.cpp">
+      <Filter>소스 파일\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMeshComponent.cpp">
+      <Filter>소스 파일\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>소스 파일\Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
