@@ -35,7 +35,6 @@ void Node::Create(aiNode* ai_Node)
 	this->m_pParent = nullptr;
 	m_relativeMatrix = XMMatrixTranspose(DirectX::XMMATRIX(ai_Node->mTransformation[0]));
 
-
 	//m_Owner->GetNodes().push_back(this);
 
 	m_meshes.resize(ai_Node->mNumMeshes);
@@ -122,7 +121,7 @@ void Node::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAl
 	test->mWorld = DirectX::XMMatrixTranspose(mTransformation);
 	for (auto mesh: m_meshes)
 	{
-		mesh->Render( m_pDeviceContext,  m_pAlphaBlendState,  m_pMaterialCB, m_pTransformCB, m_pBoneTransformBuffer, test);
+		mesh->Render(m_pDeviceContext, m_pAlphaBlendState, m_pMaterialCB, m_pTransformCB, m_pBoneTransformBuffer, test);
 	}
 
 	for (auto& node : m_Children)

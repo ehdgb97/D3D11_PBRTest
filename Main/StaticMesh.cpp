@@ -19,6 +19,9 @@ StaticMesh::~StaticMesh()
 
 bool StaticMesh::Create(std::string _FilePath)
 {
+
+
+
     // 8. FBX Loading
 
     Assimp::Importer importer;
@@ -36,7 +39,11 @@ bool StaticMesh::Create(std::string _FilePath)
         LOG_ERRORA("Error loading FBX file: %s", importer.GetErrorString());
         return false;
     }
+    m_rootNode.Create(scene->mRootNode);
+
     m_Materials.resize(scene->mNumMaterials);
+
+
     for (unsigned int i = 0; i < scene->mNumMaterials; ++i)
     {
         m_Materials[i].Create(scene->mMaterials[i]);
@@ -44,14 +51,37 @@ bool StaticMesh::Create(std::string _FilePath)
 
     m_pStaticMeshPart.resize(scene->mNumMeshes);
 
+    Create_meshes(scene->mRootNode, scene);
 
-    for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
+    /*for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
     {
-            m_pStaticMeshPart[i].Create(scene->mMeshes[i]);
-    }
-    m_rootNode.Create(scene->mRootNode);
+		m_pStaticMeshPart[i].Create(scene->mMeshes[i]);
+    }*/
 
     importer.FreeScene();
     return true;
+}
+
+bool StaticMesh::Create_meshes(aiNode* node, const aiScene* scene)
+{
+    // 현재 노드에 연결된 메시의 이름 출력
+	for (unsigned int i = 0; i < node->mNumMeshes; ++i)
+	{
+		unsigned int meshIndex = node->mMeshes[i];
+		aiMesh* mesh = scene->mMeshes[meshIndex];
+		mesh->mName.C_Str();
+		m_pStaticMeshPart[i].Create(mesh);
+		m_pStaticMeshPart[i].SetNodeName(node->mName.C_Str());
+
+	}
+
+	// 자식 노드에 대해 재귀적으로 호출
+	for (unsigned int i = 0; i < node->mNumChildren; ++i)
+	{
+		Create_meshes(node->mChildren[i], scene);
+	}
+
+
+	return true;
 }
 

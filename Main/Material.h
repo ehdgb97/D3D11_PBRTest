@@ -16,7 +16,7 @@ public:
 
 	
 	void Create(aiMaterial* pMaterial);
-	void Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB);
+	void Render();
 	//std::shared_ptr<TextureImage> m_pBaseColor;	// 텍스처 리소스 뷰.
 	std::shared_ptr<TextureImage> m_pDiffuseRV;
 	std::shared_ptr<TextureImage> m_pNormalRV;

@@ -32,7 +32,7 @@ public:
 	ID3D11Buffer* m_pVertexBuffer = nullptr;
 	ID3D11Buffer* m_pIndexBuffer=nullptr;
 	Material* m_pMaterial = nullptr;
-
+	std::string m_name;
 	vector<BoneWeightVertex> m_BoneWeightVertexs;
 	vector<BoneReference> m_BoneReferences;
 	CB_MatrixPallete m_matrixPalleteCB;

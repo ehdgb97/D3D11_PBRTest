@@ -23,6 +23,10 @@ bool SkeletalMeshComponent::SetStaicMesh(string _FilePath)
 
 void SkeletalMeshComponent::Update(float DeltaTime)
 {
+
+
+
+
 }
 
 void SkeletalMeshComponent::Render()

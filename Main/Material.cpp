@@ -4,6 +4,7 @@
 #include "Helper.h"
 #include "TexturePack.h"
 #include "ConstantBuffers.h"
+#include "D3DRenderManager.h"
 #include "ResourceManager.h"
 
 
@@ -116,7 +117,7 @@ void Material::Create(aiMaterial* pMaterial)
 	return;
 }
 
-void Material::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB)
+void Material::Render()
 {
 
 	m_MaterialCB.Use_DiffuseMap = m_pDiffuseRV != nullptr ? true : false;
@@ -126,29 +127,29 @@ void Material::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m
 	m_MaterialCB.Use_OpacityMap = m_pOpacityRV != nullptr ? true : false;
 	m_MaterialCB.Use_MetalnessMap = m_pMetalnessRV != nullptr ? true : false;
 	m_MaterialCB.Use_RoughnessMap = m_pRoughnessRV != nullptr ? true : false;
-
+	
 	if (m_pDiffuseRV)
-		m_pDeviceContext->PSSetShaderResources(0, 1, m_pDiffuseRV->m_pTextureRV.GetAddressOf());
+		D3DRenderManager::Instance->m_pDeviceContext->PSSetShaderResources(0, 1, m_pDiffuseRV->m_pTextureRV.GetAddressOf());
 	if (m_pNormalRV)
-		m_pDeviceContext->PSSetShaderResources(1, 1, m_pNormalRV->m_pTextureRV.GetAddressOf());
+		D3DRenderManager::Instance->m_pDeviceContext->PSSetShaderResources(1, 1, m_pNormalRV->m_pTextureRV.GetAddressOf());
 	if (m_pSpecularRV)
-		m_pDeviceContext->PSSetShaderResources(2, 1, m_pSpecularRV->m_pTextureRV.GetAddressOf());
+		D3DRenderManager::Instance->m_pDeviceContext->PSSetShaderResources(2, 1, m_pSpecularRV->m_pTextureRV.GetAddressOf());
 	if (m_pEmissiveRV)
-		m_pDeviceContext->PSSetShaderResources(3, 1, m_pEmissiveRV->m_pTextureRV.GetAddressOf());
+		D3DRenderManager::Instance->m_pDeviceContext->PSSetShaderResources(3, 1, m_pEmissiveRV->m_pTextureRV.GetAddressOf());
 	if (m_pOpacityRV)
-		m_pDeviceContext->PSSetShaderResources(4, 1, m_pOpacityRV->m_pTextureRV.GetAddressOf());
+		D3DRenderManager::Instance->m_pDeviceContext->PSSetShaderResources(4, 1, m_pOpacityRV->m_pTextureRV.GetAddressOf());
 	if (m_pMetalnessRV)
-		m_pDeviceContext->PSSetShaderResources(5, 1, m_pMetalnessRV->m_pTextureRV.GetAddressOf());
+		D3DRenderManager::Instance->m_pDeviceContext->PSSetShaderResources(5, 1, m_pMetalnessRV->m_pTextureRV.GetAddressOf());
 	if (m_pRoughnessRV)
-		m_pDeviceContext->PSSetShaderResources(6, 1, m_pRoughnessRV->m_pTextureRV.GetAddressOf());
+		D3DRenderManager::Instance->m_pDeviceContext->PSSetShaderResources(6, 1, m_pRoughnessRV->m_pTextureRV.GetAddressOf());
 
 
 	if (m_MaterialCB.Use_OpacityMap)
-		m_pDeviceContext->OMSetBlendState(m_pAlphaBlendState, nullptr, 0xffffffff); // 알파블렌드 상태설정 , 다른옵션은 기본값 
+		D3DRenderManager::Instance->m_pDeviceContext->OMSetBlendState(D3DRenderManager::Instance->m_pAlphaBlendState, nullptr, 0xffffffff); // 알파블렌드 상태설정 , 다른옵션은 기본값 
 	else
-		m_pDeviceContext->OMSetBlendState(nullptr, nullptr, 0xffffffff);	// 설정해제 , 다른옵션은 기본값
+		D3DRenderManager::Instance->m_pDeviceContext->OMSetBlendState(nullptr, nullptr, 0xffffffff);	// 설정해제 , 다른옵션은 기본값
 
-	m_pDeviceContext->UpdateSubresource(m_pMaterialCB, 0, nullptr, &m_MaterialCB, 0, 0);
+	D3DRenderManager::Instance->m_pDeviceContext->UpdateSubresource(D3DRenderManager::Instance->m_pMaterialCB, 0, nullptr, &m_MaterialCB, 0, 0);
 
 
 }

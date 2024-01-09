@@ -2,6 +2,7 @@
 #include "VertexType.h"
 #include "BoneReference.h"
 #include "ConstantBuffers.h"
+class Node;
 class SkeletalMeshPart
 {
 public:
@@ -23,7 +24,9 @@ public:
 	UINT m_IndexCount = 0;				// 인덱스 개수.
 	UINT m_MaterialIndex = 0;			// 메테리얼 인덱스.
 	std::string m_Name;
+	std::string m_NodeName;
 	void UpdateMatrixPallete(ID3D11DeviceContext* deviceContext, ID3D11Buffer* m_pBoneTransformBuffer);
+	void SetNodeName(std::string name) { m_NodeName = name; }
 
 };
 
