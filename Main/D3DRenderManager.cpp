@@ -545,6 +545,14 @@ bool D3DRenderManager::InitScene()
 		newObj->SetFBX("cerberus.fbx");
 		mGameobject.push_back(newObj);
 	}
+	for (int i = 0; i < SpawnObject; i++)
+	{
+		shared_ptr<Actor> newObj = make_shared<Actor>();
+		//newObj->SetFBX("cerberus.fbx");
+		m_Actors.emplace_back(newObj);
+	}
+
+
 	return true;
 
 }

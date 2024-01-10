@@ -11,8 +11,8 @@ public:
 
 
 	 Actor* GetOwner() { return m_pOwner; }
-	 virtual void Update(float DeltaTime) = 0;
-	 virtual void Render() = 0;
+	 virtual void Update(float DeltaTime);
+	 virtual void Render();
 
 };
 

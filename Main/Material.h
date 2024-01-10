@@ -16,7 +16,8 @@ public:
 
 	
 	void Create(aiMaterial* pMaterial);
-	void Render();
+	void Render
+	();
 	//std::shared_ptr<TextureImage> m_pBaseColor;	// 텍스처 리소스 뷰.
 	std::shared_ptr<TextureImage> m_pDiffuseRV;
 	std::shared_ptr<TextureImage> m_pNormalRV;

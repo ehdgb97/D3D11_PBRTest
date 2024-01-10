@@ -1,8 +1,11 @@
 #include "pch.h"
 #include "Actor.h"
 #include"Component.h"
+#include"StaticMeshComponent.h"
 Actor::Actor()
 {
+	auto newComponent = AddComponent<StaticMeshComponent>();
+	newComponent->SetStaicMesh("cerberus.fbx");
 }
 
 Actor::~Actor()

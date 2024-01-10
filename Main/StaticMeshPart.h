@@ -15,6 +15,7 @@ public:
 	std::string pNodeName;
 	void CreateIndexBuffer(UINT* indies, UINT indexCount);
 	void CreateVertexBuffer(Vertex* vertices, UINT vertexCount);
+	unsigned int m_MaterialIndex = 0; 
 
 	void Create(aiMesh* mesh);
 	ID3D11Buffer* m_pVertexBuffer;

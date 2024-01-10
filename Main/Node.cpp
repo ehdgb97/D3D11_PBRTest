@@ -58,11 +58,15 @@ void Node::Create(aiNode* ai_Node, Node* pParent)
 	m_relativeMatrix = XMMatrixTranspose(DirectX::XMMATRIX(ai_Node->mTransformation[0]));
 	//m_Owner->GetNodes().push_back(this);
 
-	m_meshes.resize(ai_Node->mNumMeshes);
-	for (size_t i = 0; i < ai_Node->mNumMeshes; ++i)
+	if (m_Owner)
 	{
-		m_meshes[i] = m_Owner->GetMeshes()[ai_Node->mMeshes[i]];
+		m_meshes.resize(ai_Node->mNumMeshes);
+		for (size_t i = 0; i < ai_Node->mNumMeshes; ++i)
+		{
+			m_meshes[i] = m_Owner->GetMeshes()[ai_Node->mMeshes[i]];
+		}
 	}
+	
 
 	m_Children.resize(ai_Node->mNumChildren);
 	for (size_t i = 0; i < ai_Node->mNumChildren; ++i)

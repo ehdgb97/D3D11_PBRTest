@@ -49,6 +49,7 @@ void StaticMeshPart::Create(aiMesh* mesh)
 {
 	// 버텍스 정보 생성
 	m_Name = mesh->mName.C_Str();
+	m_MaterialIndex = mesh->mMaterialIndex;
 	unique_ptr<Vertex[]> vertices(new Vertex[mesh->mNumVertices]);
 	for (UINT i = 0; i < mesh->mNumVertices; ++i)
 	{

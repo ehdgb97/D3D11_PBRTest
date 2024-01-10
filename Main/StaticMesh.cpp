@@ -74,7 +74,6 @@ bool StaticMesh::Create_meshes(aiNode* node, const aiScene* scene)
 		m_pStaticMeshPart[i].SetNodeName(node->mName.C_Str());
 
 	}
-
 	// 자식 노드에 대해 재귀적으로 호출
 	for (unsigned int i = 0; i < node->mNumChildren; ++i)
 	{
