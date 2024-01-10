@@ -105,6 +105,11 @@ void D3DRenderManager::Update()
 			object->SetWorld(m_World);
 			object->Update(m_pDeviceContext, m_pMatrixPalleteCB);
 		}
+		for (auto object : m_Actors)
+		{
+			object->SetWorld(m_World);
+			object->Update(GameTimer::m_Instance->DeltaTime());
+		}
 	}
 
 
@@ -143,7 +148,11 @@ void D3DRenderManager::Render()
 		test.mProjection = XMMatrixTranspose(m_Projection);
 		object->Render(m_pDeviceContext, m_pAlphaBlendState, m_pMaterialCB, m_pTransformCB, m_pMatrixPalleteCB, &test);
 	}
-
+	for (auto object : m_Actors)
+	{
+		object->SetWorld(m_World);
+		object->Render();
+	}
 
 
 #pragma region Imgui

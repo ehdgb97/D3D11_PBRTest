@@ -80,40 +80,46 @@ void Node::Create(aiNode* ai_Node, Node* pParent)
 
 void Node::Update()
 {
-	assert(m_Owner != nullptr);
-
-	Matrix matrix = DirectX::XMMatrixIdentity();
-	if (!m_Owner->GetUseAni())
+	if (m_Owner != nullptr)
 	{
-		if (m_pParent)
-			matrix = m_pParent->mTransformation;
 
-		else
-			matrix = m_Owner->GetWorld();
-
-		mTransformation = m_relativeMatrix * matrix;
 	}
 	else
 	{
-		if (m_haveAnime)
+		Matrix matrix = DirectX::XMMatrixIdentity();
+		if (!m_Owner->GetUseAni())
 		{
 			if (m_pParent)
 				matrix = m_pParent->mTransformation;
-			else
-				matrix = m_Owner->GetWorld();
-			mTransformation = m_AnimationMatrix * matrix;
-		}
-		else
-		{
-			if (m_pParent)
-				matrix = m_pParent->mTransformation;
+
 			else
 				matrix = m_Owner->GetWorld();
 
 			mTransformation = m_relativeMatrix * matrix;
 		}
+		else
+		{
+			if (m_haveAnime)
+			{
+				if (m_pParent)
+					matrix = m_pParent->mTransformation;
+				else
+					matrix = m_Owner->GetWorld();
+				mTransformation = m_AnimationMatrix * matrix;
+			}
+			else
+			{
+				if (m_pParent)
+					matrix = m_pParent->mTransformation;
+				else
+					matrix = m_Owner->GetWorld();
 
+				mTransformation = m_relativeMatrix * matrix;
+			}
+
+		}
 	}
+	
 
 
 	for (auto& node : m_Children)

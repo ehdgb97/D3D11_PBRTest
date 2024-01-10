@@ -10,8 +10,8 @@ class Actor;
 class Node
 {
 private:
-	GameObject* m_Owner;
-	Actor* m_Ownera;
+	GameObject* m_Owner=nullptr;
+	Actor* m_Ownera = nullptr;
 	Node* m_pParent = nullptr;
 	vector<Mesh*> m_meshes = {};
 	vector<Node> m_Children = {};
