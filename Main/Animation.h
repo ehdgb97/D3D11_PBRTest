@@ -1,8 +1,7 @@
 #pragma once
-class GameObject;
 struct aiAnimation;
 struct aiNodeAnim;
-
+class Actor;
 using namespace std;
 using namespace DirectX::SimpleMath;
 
@@ -29,11 +28,11 @@ class Animation
 private:
 public:
 
-	GameObject* m_owner;
+	Actor* m_owner;
 	bool IsPlayed=true;
 
 public:
-	Animation(GameObject* _owner);
+	Animation(Actor* _owner);
 	~Animation();
 
 public:

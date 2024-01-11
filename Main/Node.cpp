@@ -2,9 +2,8 @@
 #include "Node.h"
 #include "Helper.h"
 #include <assimp/scene.h>
-#include "Mesh.h"
 #include "Actor.h"
-#include "GameObject.h"
+ 
 
 
 
@@ -12,18 +11,23 @@ Node::Node()
 {
 }
 
-Node::Node(GameObject* Own)
-{
-	m_Owner = Own;
-}
+//Node::Node(Actor* Own)
+//{
+//	m_Owner = Own;
+//}
 
 Node::~Node()
 {
 }
 
-void Node::SetOwner(GameObject* owner)
+void Node::SetOwner(Actor* owner)
 {
 	m_Owner = owner;
+	for (auto& child: m_Children)
+	{
+		child.SetOwner(m_Owner);
+	}
+
 }
 
 
@@ -36,10 +40,6 @@ void Node::Create(aiNode* ai_Node)
 	m_relativeMatrix = XMMatrixTranspose(DirectX::XMMATRIX(ai_Node->mTransformation[0]));
 
 	//m_Owner->GetNodes().push_back(this);
-
-	m_meshes.resize(ai_Node->mNumMeshes);
-	for (size_t i = 0; i < ai_Node->mNumMeshes; ++i)
-		m_meshes[i]= m_Owner->GetMeshes()[ai_Node->mMeshes[i]];
 
 	m_Children.resize(ai_Node->mNumChildren);
 	for (size_t i = 0; i < ai_Node->mNumChildren; ++i)
@@ -58,15 +58,7 @@ void Node::Create(aiNode* ai_Node, Node* pParent)
 	m_relativeMatrix = XMMatrixTranspose(DirectX::XMMATRIX(ai_Node->mTransformation[0]));
 	//m_Owner->GetNodes().push_back(this);
 
-	if (m_Owner)
-	{
-		m_meshes.resize(ai_Node->mNumMeshes);
-		for (size_t i = 0; i < ai_Node->mNumMeshes; ++i)
-		{
-			m_meshes[i] = m_Owner->GetMeshes()[ai_Node->mMeshes[i]];
-		}
-	}
-	
+
 
 	m_Children.resize(ai_Node->mNumChildren);
 	for (size_t i = 0; i < ai_Node->mNumChildren; ++i)
@@ -80,46 +72,40 @@ void Node::Create(aiNode* ai_Node, Node* pParent)
 
 void Node::Update()
 {
-	if (m_Owner != nullptr)
+	assert(m_Owner != nullptr);
+	Matrix matrix = DirectX::XMMatrixIdentity();
+	if (!m_Owner->GetUseAni())
 	{
+		if (m_pParent)
+			matrix = m_pParent->mTransformation;
 
+		else
+			matrix = m_Owner->GetWorld();
+
+		mTransformation = m_relativeMatrix * matrix;
 	}
 	else
 	{
-		Matrix matrix = DirectX::XMMatrixIdentity();
-		if (!m_Owner->GetUseAni())
+		if (m_haveAnime)
 		{
 			if (m_pParent)
 				matrix = m_pParent->mTransformation;
-
+			else
+				matrix = m_Owner->GetWorld();
+			mTransformation = m_AnimationMatrix * matrix;
+		}
+		else
+		{
+			if (m_pParent)
+				matrix = m_pParent->mTransformation;
 			else
 				matrix = m_Owner->GetWorld();
 
 			mTransformation = m_relativeMatrix * matrix;
 		}
-		else
-		{
-			if (m_haveAnime)
-			{
-				if (m_pParent)
-					matrix = m_pParent->mTransformation;
-				else
-					matrix = m_Owner->GetWorld();
-				mTransformation = m_AnimationMatrix * matrix;
-			}
-			else
-			{
-				if (m_pParent)
-					matrix = m_pParent->mTransformation;
-				else
-					matrix = m_Owner->GetWorld();
 
-				mTransformation = m_relativeMatrix * matrix;
-			}
-
-		}
 	}
-	
+
 
 
 	for (auto& node : m_Children)
@@ -128,14 +114,6 @@ void Node::Update()
 
 void Node::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAlphaBlendState, ID3D11Buffer* m_pMaterialCB, ID3D11Buffer* m_pTransformCB, ID3D11Buffer* m_pBoneTransformBuffer, CB_Transform* test)
 {
-	test->mWorld = DirectX::XMMatrixTranspose(mTransformation);
-	for (auto mesh: m_meshes)
-	{
-		mesh->Render(m_pDeviceContext, m_pAlphaBlendState, m_pMaterialCB, m_pTransformCB, m_pBoneTransformBuffer, test);
-	}
-
-	for (auto& node : m_Children)
-		node.Render(m_pDeviceContext, m_pAlphaBlendState, m_pMaterialCB, m_pTransformCB, m_pBoneTransformBuffer,test);
 
 }
 

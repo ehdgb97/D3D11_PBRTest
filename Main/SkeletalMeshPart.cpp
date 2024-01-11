@@ -3,8 +3,7 @@
 #include "Material.h"
 
 #include "D3DRenderManager.h"
-#include "GameObject.h"
-#include "Mesh.h"
+ 
 #include "Node.h"
 #include "Helper.h"
 #include "ConstantBuffers.h"

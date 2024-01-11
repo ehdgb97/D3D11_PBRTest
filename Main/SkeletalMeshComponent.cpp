@@ -2,14 +2,14 @@
 #include"FullSkeletonMesh.h"
 #include "SkeletalMeshComponent.h"
 #include "ResourceManager.h"
-SkeletalMeshComponent::SkeletalMeshComponent()
+SkeletalMeshComponent::SkeletalMeshComponent(Actor* owner):Component(owner)
 {
 }
 
-SkeletalMeshComponent::SkeletalMeshComponent(string _FilePath)
-{
-	SetStaicMesh(_FilePath);
-}
+//SkeletalMeshComponent::SkeletalMeshComponent(string _FilePath)
+//{
+//	SetStaicMesh(_FilePath);
+//}
 
 SkeletalMeshComponent::~SkeletalMeshComponent()
 {

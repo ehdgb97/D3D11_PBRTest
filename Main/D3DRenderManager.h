@@ -5,9 +5,8 @@
 
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
-class GameObject;
 class Actor;
-#include "GameObject.h"
+ 
 class D3DRenderManager
 {
 
@@ -57,7 +56,6 @@ public:
 
 	HWND m_hWnd = nullptr;
 
-	vector<shared_ptr<GameObject>> mGameobject;
 	std::list<std::shared_ptr<Actor>> m_Actors;	// 생성된 게임 오브젝트들	
 
 	Vector3 m_meshRotationAngle;

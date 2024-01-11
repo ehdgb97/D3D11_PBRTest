@@ -3,7 +3,7 @@ class Actor;
 class Component
 {
 public:
-	Component() {};
+	Component(Actor* Owner):m_pOwner(Owner){};
 	 virtual ~Component()=default;
 	 Actor* m_pOwner = nullptr;
 	 std::string m_Name;			

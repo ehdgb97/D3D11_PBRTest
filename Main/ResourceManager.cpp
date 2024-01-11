@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "ResourceManager.h"
 #include "Helper.h"
-#include "Mesh.h"
 #include "FullSkeletonMesh.h"
 #include"StaticMesh.h"
 #include"Animation.h"

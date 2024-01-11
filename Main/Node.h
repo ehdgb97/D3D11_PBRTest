@@ -5,13 +5,11 @@ struct aiNode;
 struct aiScene;
 class Mesh;
 struct CB_Transform;
-class GameObject;
 class Actor;
 class Node
 {
 private:
-	GameObject* m_Owner=nullptr;
-	Actor* m_Ownera = nullptr;
+	Actor* m_Owner = nullptr;
 	Node* m_pParent = nullptr;
 	vector<Mesh*> m_meshes = {};
 	vector<Node> m_Children = {};
@@ -23,9 +21,9 @@ private:
 	string m_Name = {};
 public:
 	Node();
-	Node(GameObject* Own);
+	//Node(Actor* Own);
 	~Node();
-	void SetOwner(GameObject* owner);
+	void SetOwner(Actor* owner);
 	void Create(aiNode* ai_Node);
 	void Create(aiNode* ai_Node,Node* pParent);
 	void Update();

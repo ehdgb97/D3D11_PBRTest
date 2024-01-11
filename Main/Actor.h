@@ -43,7 +43,7 @@ public:
 	template<typename Comp>
 	std::shared_ptr<Comp> AddComponent()
 	{
-		std::shared_ptr<Comp> newComponent = std::make_shared<Comp>();
+		std::shared_ptr<Comp> newComponent = std::make_shared<Comp>(this);
 		m_OwnedComponents.push_back(newComponent);
 
 		return newComponent;
@@ -53,6 +53,7 @@ public:
 inline void Actor::SetUseAni(bool Use)
 {
 	m_useAnime = Use;
+
 }
 
 inline bool Actor::GetUseAni()

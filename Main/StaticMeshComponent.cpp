@@ -3,15 +3,16 @@
 #include "StaticMeshComponent.h"
 #include"D3DRenderManager.h"
 #include"ResourceManager.h"
+#include"Actor.h"
 
-StaticMeshComponent::StaticMeshComponent()
+StaticMeshComponent::StaticMeshComponent(Actor* owner) : Component(owner) 
 {
 }
 
-StaticMeshComponent::StaticMeshComponent(string _FilePath)
-{
-	SetStaicMesh(_FilePath);
-}
+//StaticMeshComponent::StaticMeshComponent(string _FilePath)
+//{
+//	SetStaicMesh(_FilePath);
+//}
 
 StaticMeshComponent::~StaticMeshComponent()
 {
@@ -20,12 +21,34 @@ StaticMeshComponent::~StaticMeshComponent()
 bool StaticMeshComponent::SetStaicMesh(string _FilePath)
 {
 	m_pStaticMesh =ResourceManager::Instance->Search_StaticMesh(_FilePath);
+	m_pStaticMesh->m_rootNode.SetOwner(m_pOwner);
+
+
+
 	return true;
 }
 
 
 void StaticMeshComponent::Update(float DeltaTime)
 {
+	using namespace DirectX;
+	XMFLOAT3 meshRotation = {};
+	meshRotation.x = XMConvertToRadians(m_angle.x);
+	meshRotation.y = XMConvertToRadians(m_angle.y);
+	meshRotation.z = XMConvertToRadians(m_angle.z);
+	Matrix scaleMatrix = XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
+	Matrix rotationMatrix = XMMatrixRotationX(meshRotation.x) * XMMatrixRotationY(meshRotation.y) * XMMatrixRotationZ(meshRotation.z);
+	Matrix translationMatrix = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
+	mLocalTransformMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+
+	m_angle.x = static_cast<float>(fmod(m_angle.x, 360));
+	m_angle.y = static_cast<float>(fmod(m_angle.y, 360));
+	m_angle.z = static_cast<float>(fmod(m_angle.z, 360));
+	m_scale = { m_scale.x,m_scale.x,m_scale.x };
+
+
+	ToltalTransform = mLocalTransformMatrix * m_pOwner->GetWorld();
+
 	m_pStaticMesh->m_rootNode.Update();
 
 }
@@ -34,7 +57,7 @@ void StaticMeshComponent::Render()
 {
 	for (auto part:m_pStaticMesh->m_pStaticMeshPart)
 	{
-		Matrix transform = DirectX::XMMatrixTranspose(m_pStaticMesh->m_rootNode.FindNode(part.m_Name)->GetTransform());
+		Matrix transform = DirectX::XMMatrixTranspose(m_pStaticMesh->m_rootNode.FindNode(part.pNodeName)->GetTransform());
 		D3DRenderManager::Instance->m_TransformCB.mWorld = transform;
 		//m_pStaticMesh->m_Materials[part.m_MaterialIndex].m_MaterialCB.Ambient = m_owner->GetMaterialCB().Ambient;
 		//m_pStaticMesh->m_Materials[part.m_MaterialIndex].m_MaterialCB.Diffuse = m_owner->GetMaterialCB().Diffuse;

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "D3DRenderManager.h"
-#include "GameObject.h"
+ 
 #include "Actor.h"
 #include "Helper.h"
 #include <d3dcompiler.h>
@@ -92,19 +92,7 @@ void D3DRenderManager::Update()
 	}
 	///매쉬 셋팅 모음.
 	{
-		for (auto object : mGameobject)
-		{
-			if (m_meshRotationUse)
-			{
-				Vector3 MeshAnlge = object->GetAngle();
-				MeshAnlge.x += m_meshRotationAngle.x * GameTimer::m_Instance->DeltaTime();
-				MeshAnlge.y += m_meshRotationAngle.y * GameTimer::m_Instance->DeltaTime();
-				MeshAnlge.z += m_meshRotationAngle.z * GameTimer::m_Instance->DeltaTime();
-				object->SetAngle(MeshAnlge);
-			}
-			object->SetWorld(m_World);
-			object->Update(m_pDeviceContext, m_pMatrixPalleteCB);
-		}
+		
 		for (auto object : m_Actors)
 		{
 			object->SetWorld(m_World);
@@ -140,14 +128,7 @@ void D3DRenderManager::Render()
 		m_pDeviceContext->PSSetSamplers(0, 1, &m_pSamplerLinear);
 	}
 	m_pDeviceContext->UpdateSubresource(m_pDirectionLightCB, 0, nullptr, &m_DirectionLightCB, 0, 0);
-	for (auto object : mGameobject)
-	{
-		CB_Transform test;
-		test.mWorld = XMMatrixTranspose(object->GetWorld());
-		test.mView = XMMatrixTranspose(m_View);
-		test.mProjection = XMMatrixTranspose(m_Projection);
-		object->Render(m_pDeviceContext, m_pAlphaBlendState, m_pMaterialCB, m_pTransformCB, m_pMatrixPalleteCB, &test);
-	}
+	
 	for (auto object : m_Actors)
 	{
 		object->SetWorld(m_World);
@@ -192,7 +173,7 @@ void D3DRenderManager::Render()
 
 			}
 			int i = 0;
-			for (auto object : mGameobject)
+			for (auto object : m_Actors)
 			{
 				string combinedMainstring;
 				string combinedsubString = {};
@@ -236,7 +217,7 @@ void D3DRenderManager::Render()
 					combinedMainstring = combinedMainstring + "Graphic";
 					ImGui::Text("");
 
-					ImGui::Text("Graphics:");
+					/*ImGui::Text("Graphics:");
 					CB_Material material = object->GetMaterialCB();
 					combinedsubString = "##GameObject" + std::to_string(i) + "Ambient";
 
@@ -280,7 +261,7 @@ void D3DRenderManager::Render()
 						float Anime_Duration = object->GetAnimations()[object->AnimationIndex]->GetDuration();
 						ImGui::DragFloat(combinedsubString.c_str(), (&Anime_Duration), 0.01f, 0.1f, 10.f);
 						object->GetAnimations()[object->AnimationIndex]->SetDuration(Anime_Duration);
-					}
+					}*/
 
 				}
 				i++;
@@ -546,14 +527,9 @@ bool D3DRenderManager::InitScene()
 		// Initialize the projection matrix
 		m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, m_viewport.Width / (FLOAT)m_viewport.Height, 0.01f, 100.0f);
 	}
-	int SpawnObject = 1;
+	int SpawnObject = 1000;
 
-	for (int i = 0; i < SpawnObject; i++)
-	{
-		shared_ptr<GameObject> newObj = make_shared<GameObject>();
-		newObj->SetFBX("cerberus.fbx");
-		mGameobject.push_back(newObj);
-	}
+
 	for (int i = 0; i < SpawnObject; i++)
 	{
 		shared_ptr<Actor> newObj = make_shared<Actor>();

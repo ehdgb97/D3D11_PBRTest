@@ -3,8 +3,8 @@
 class SkeletalMeshComponent :
     public Component
 {
-	SkeletalMeshComponent();
-	SkeletalMeshComponent(string _FilePath);
+	SkeletalMeshComponent(Actor* Owner);
+	//SkeletalMeshComponent(string _FilePath);
 	~SkeletalMeshComponent();
 	bool SetStaicMesh(string _FilePath);
 	std::shared_ptr<FullSkeletonMesh> m_pFullSkeletonMesh;
