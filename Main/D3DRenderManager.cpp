@@ -527,7 +527,7 @@ bool D3DRenderManager::InitScene()
 		// Initialize the projection matrix
 		m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, m_viewport.Width / (FLOAT)m_viewport.Height, 0.01f, 100.0f);
 	}
-	int SpawnObject = 1000;
+	int SpawnObject = 1;
 
 
 	for (int i = 0; i < SpawnObject; i++)

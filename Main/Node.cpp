@@ -4,7 +4,7 @@
 #include <assimp/scene.h>
 #include "Actor.h"
  
-
+#include"Component.h"
 
 
 Node::Node()
@@ -20,7 +20,7 @@ Node::~Node()
 {
 }
 
-void Node::SetOwner(Actor* owner)
+void Node::SetOwner(Component* owner)
 {
 	m_Owner = owner;
 	for (auto& child: m_Children)
@@ -74,8 +74,8 @@ void Node::Update()
 {
 	assert(m_Owner != nullptr);
 	Matrix matrix = DirectX::XMMatrixIdentity();
-	if (!m_Owner->GetUseAni())
-	{
+	//if (!m_Owner->GetUseAni())
+	//{
 		if (m_pParent)
 			matrix = m_pParent->mTransformation;
 
@@ -83,28 +83,28 @@ void Node::Update()
 			matrix = m_Owner->GetWorld();
 
 		mTransformation = m_relativeMatrix * matrix;
-	}
-	else
-	{
-		if (m_haveAnime)
-		{
-			if (m_pParent)
-				matrix = m_pParent->mTransformation;
-			else
-				matrix = m_Owner->GetWorld();
-			mTransformation = m_AnimationMatrix * matrix;
-		}
-		else
-		{
-			if (m_pParent)
-				matrix = m_pParent->mTransformation;
-			else
-				matrix = m_Owner->GetWorld();
+	//}
+	//else
+	//{
+	//	if (m_haveAnime)
+	//	{
+	//		if (m_pParent)
+	//			matrix = m_pParent->mTransformation;
+	//		else
+	//			matrix = m_Owner->GetWorld();
+	//		mTransformation = m_AnimationMatrix * matrix;
+	//	}
+	//	else
+	//	{
+	//		if (m_pParent)
+	//			matrix = m_pParent->mTransformation;
+	//		else
+	//			matrix = m_Owner->GetWorld();
 
-			mTransformation = m_relativeMatrix * matrix;
-		}
+	//		mTransformation = m_relativeMatrix * matrix;
+	//	}
 
-	}
+	//}
 
 
 

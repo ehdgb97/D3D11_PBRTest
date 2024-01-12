@@ -4,12 +4,12 @@
 class Component;
 class Actor
 {
-	Matrix mLocalTransformMatrix;
 
 	Vector3 m_position = {};
-	Matrix     mWorld;		// 월드좌표계 공간으로 변환을 위한 행렬.
 	Vector3 m_scale = { .3f,.3f,.3f };
 	Vector3 m_angle = {};
+	Matrix mLocalTransformMatrix;
+	Matrix     mWorld;		// 월드좌표계 공간으로 변환을 위한 행렬.
 	bool m_useAnime = false;
 
 
@@ -90,6 +90,7 @@ inline Vector3 Actor::GetAngle()
 {
 	return m_angle;
 }
+
 inline Matrix Actor::GetWorld()
 {
 	return mWorld;

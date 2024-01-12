@@ -6,10 +6,12 @@ struct aiScene;
 class Mesh;
 struct CB_Transform;
 class Actor;
+class Component;
 class Node
 {
 private:
-	Actor* m_Owner = nullptr;
+	Component* m_Owner = nullptr;
+
 	Node* m_pParent = nullptr;
 	vector<Mesh*> m_meshes = {};
 	vector<Node> m_Children = {};
@@ -23,7 +25,7 @@ public:
 	Node();
 	//Node(Actor* Own);
 	~Node();
-	void SetOwner(Actor* owner);
+	void SetOwner(Component* owner);
 	void Create(aiNode* ai_Node);
 	void Create(aiNode* ai_Node,Node* pParent);
 	void Update();

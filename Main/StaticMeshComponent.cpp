@@ -21,7 +21,7 @@ StaticMeshComponent::~StaticMeshComponent()
 bool StaticMeshComponent::SetStaicMesh(string _FilePath)
 {
 	m_pStaticMesh =ResourceManager::Instance->Search_StaticMesh(_FilePath);
-	m_pStaticMesh->m_rootNode.SetOwner(m_pOwner);
+	m_pStaticMesh->m_rootNode.SetOwner(this);
 
 
 
@@ -47,7 +47,7 @@ void StaticMeshComponent::Update(float DeltaTime)
 	m_scale = { m_scale.x,m_scale.x,m_scale.x };
 
 
-	ToltalTransform = mLocalTransformMatrix * m_pOwner->GetWorld();
+	mWorld = mLocalTransformMatrix * m_pOwner->GetWorld();
 
 	m_pStaticMesh->m_rootNode.Update();
 
