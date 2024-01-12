@@ -72,7 +72,7 @@ void D3DRenderManager::Update()
 		XMVECTOR up = XMVector3TransformCoord(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), cameraRotMatrix);
 		// 뷰 매트릭스 생성
 		m_View = XMMatrixLookToLH(eye, forward, up);
-
+		
 		///카메라 예외처리
 		if (m_cameraDistance.x >= m_cameraDistance.y)
 			m_cameraDistance.y = m_cameraDistance.x + 1.f;
@@ -93,6 +93,10 @@ void D3DRenderManager::Update()
 	///매쉬 셋팅 모음.
 	{
 		
+		m_TransformCB.mView = XMMatrixTranspose(m_View);
+		m_TransformCB.mProjection = XMMatrixTranspose(m_Projection);
+
+
 		for (auto object : m_Actors)
 		{
 			object->SetWorld(m_World);
@@ -526,6 +530,7 @@ bool D3DRenderManager::InitScene()
 		m_View = DirectX::XMMatrixLookAtLH(Eye, At, Up);
 		// Initialize the projection matrix
 		m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, m_viewport.Width / (FLOAT)m_viewport.Height, 0.01f, 100.0f);
+
 	}
 	int SpawnObject = 1;
 
@@ -536,8 +541,6 @@ bool D3DRenderManager::InitScene()
 		//newObj->SetFBX("cerberus.fbx");
 		m_Actors.emplace_back(newObj);
 	}
-
-
 	return true;
 
 }
