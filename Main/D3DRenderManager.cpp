@@ -540,6 +540,7 @@ bool D3DRenderManager::InitScene()
 		shared_ptr<Actor> newObj = make_shared<Actor>();
 		//newObj->SetFBX("cerberus.fbx");
 		m_Actors.emplace_back(newObj);
+
 	}
 	return true;
 
@@ -569,11 +570,11 @@ void D3DRenderManager::UninitScene()
 	SAFE_RELEASE(m_pInputLayout);
 	SAFE_RELEASE(m_pVertexShader);
 	SAFE_RELEASE(m_pPixelShader);
+	SAFE_RELEASE(m_pAlphaBlendState);
+	SAFE_RELEASE(m_pSamplerLinear);
 	SAFE_RELEASE(m_pTransformCB);
 	SAFE_RELEASE(m_pDirectionLightCB);
 	SAFE_RELEASE(m_pMaterialCB);
-	SAFE_RELEASE(m_pAlphaBlendState);
-	SAFE_RELEASE(m_pSamplerLinear);
 	SAFE_RELEASE(m_pMatrixPalleteCB);
 }
 #pragma endregion

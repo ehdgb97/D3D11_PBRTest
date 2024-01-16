@@ -55,7 +55,7 @@ void StaticMeshComponent::Update(float DeltaTime)
 
 void StaticMeshComponent::Render()
 {
-	for (auto part:m_pStaticMesh->m_pStaticMeshPart)
+	for (auto& part:m_pStaticMesh->m_pStaticMeshPart)
 	{
 		Matrix transform = DirectX::XMMatrixTranspose(m_pStaticMesh->m_rootNode.FindNode(part.pNodeName)->GetTransform());
 		D3DRenderManager::Instance->m_TransformCB.mWorld = transform;

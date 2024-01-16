@@ -9,6 +9,9 @@ StaticMeshPart::StaticMeshPart()
 
 StaticMeshPart::~StaticMeshPart()
 {
+	SAFE_RELEASE(m_pVertexBuffer);
+	SAFE_RELEASE(m_pIndexBuffer);
+
 }
 
 void StaticMeshPart::CreateIndexBuffer(UINT* indices, UINT indexCount)
