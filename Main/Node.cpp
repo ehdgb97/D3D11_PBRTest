@@ -74,15 +74,13 @@ void Node::Update()
 {
 	assert(m_Owner != nullptr);
 	Matrix matrix = DirectX::XMMatrixIdentity();
-	//if (!m_Owner->GetUseAni())
-	//{
-		if (m_pParent)
-			matrix = m_pParent->mTransformation;
+	if (m_pParent)
+		matrix = m_pParent->mTransformation;
 
-		else
-			matrix = m_Owner->GetWorld();
+	else
+		matrix = m_Owner->GetWorld();
 
-		mTransformation = m_relativeMatrix * matrix;
+	mTransformation = m_relativeMatrix * matrix;
 	//}
 	//else
 	//{
@@ -119,6 +117,11 @@ void Node::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAl
 
 Matrix Node::GetTransform()
 {
+	assert(m_Owner != nullptr);
+	Matrix matrix = DirectX::XMMatrixIdentity();
+	//if (!m_Owner->GetUseAni())
+	//{
+
 	return mTransformation;
 }
 

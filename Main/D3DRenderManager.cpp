@@ -212,7 +212,8 @@ void D3DRenderManager::Render()
 					combinedsubString = "##GameObject" + std::to_string(i) + "RotationSpeed";
 					ImGui::DragFloat3(combinedsubString.c_str(), reinterpret_cast<float*>(&m_meshRotationAngle), 1, -720.f, 720.f);
 					Scale = { Scale.x,Scale.x,Scale.x };
-
+					if (m_meshRotationUse)
+						Angle += m_meshRotationAngle * GameTimer::m_Instance->DeltaTime();
 					///¼Â pos
 					object->SetPos(Pos);
 					object->SetScale(Scale);
@@ -532,7 +533,7 @@ bool D3DRenderManager::InitScene()
 		m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, m_viewport.Width / (FLOAT)m_viewport.Height, 0.01f, 100.0f);
 
 	}
-	int SpawnObject = 1;
+	int SpawnObject =10;
 
 
 	for (int i = 0; i < SpawnObject; i++)

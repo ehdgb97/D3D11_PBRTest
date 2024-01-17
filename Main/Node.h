@@ -13,7 +13,6 @@ private:
 	Component* m_Owner = nullptr;
 
 	Node* m_pParent = nullptr;
-	vector<Mesh*> m_meshes = {};
 	vector<Node> m_Children = {};
 	Matrix mTransformation = DirectX::XMMatrixIdentity();
 	Matrix m_relativeMatrix = {};

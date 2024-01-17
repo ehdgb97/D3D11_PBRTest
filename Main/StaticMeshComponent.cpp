@@ -49,15 +49,18 @@ void StaticMeshComponent::Update(float DeltaTime)
 
 	mWorld = mLocalTransformMatrix * m_pOwner->GetWorld();
 
-	m_pStaticMesh->m_rootNode.Update();
+
 
 }
 
 void StaticMeshComponent::Render()
 {
+	m_pStaticMesh->m_rootNode.SetOwner(this);
+	m_pStaticMesh->m_rootNode.Update();
 	for (auto& part:m_pStaticMesh->m_pStaticMeshPart)
 	{
 		Matrix transform = DirectX::XMMatrixTranspose(m_pStaticMesh->m_rootNode.FindNode(part.pNodeName)->GetTransform());
+
 		D3DRenderManager::Instance->m_TransformCB.mWorld = transform;
 		//m_pStaticMesh->m_Materials[part.m_MaterialIndex].m_MaterialCB.Ambient = m_owner->GetMaterialCB().Ambient;
 		//m_pStaticMesh->m_Materials[part.m_MaterialIndex].m_MaterialCB.Diffuse = m_owner->GetMaterialCB().Diffuse;

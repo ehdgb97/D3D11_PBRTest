@@ -7,7 +7,7 @@ class Component
 {
 public:
 	Vector3 m_position = {};
-	Vector3 m_scale = { .3f,.3f,.3f };
+	Vector3 m_scale = { 1.f,1.f,1.f };
 	Vector3 m_angle = {};
 	Matrix mLocalTransformMatrix;
 	Matrix     mWorld;		// 월드좌표계 공간으로 변환을 위한 행렬.

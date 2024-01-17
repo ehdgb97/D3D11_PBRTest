@@ -8,7 +8,7 @@ class StaticMeshComponent :public Component
 public:
 
 
-
+	
 
 	StaticMeshComponent(Actor* owner);
 	//StaticMeshComponent(std::string _FilePath);
