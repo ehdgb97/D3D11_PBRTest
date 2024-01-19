@@ -29,6 +29,8 @@ PBRTest::~PBRTest()
 
 bool PBRTest::Initialize(UINT Width, UINT Height)
 {
+	std::srand(static_cast<unsigned int>(std::time(0)));
+
 	__super::Initialize(Width, Height);
 
 	return true;

@@ -3,6 +3,7 @@
 #include "ConstantBuffers.h"
 #include "TimeSystem.h"
 
+#include <psapi.h>
 using namespace DirectX::SimpleMath;
 using namespace DirectX;
 class Actor;
@@ -75,6 +76,6 @@ public:
 	void UninitScene();
 	void UninitImGUI();
 	//virtual LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
+	void GetProcessMemoryUsage(SIZE_T& total, SIZE_T& used);
 };
 

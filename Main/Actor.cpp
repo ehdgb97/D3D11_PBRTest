@@ -2,8 +2,19 @@
 #include "Actor.h"
 #include"Component.h"
 #include"StaticMeshComponent.h"
+#include <cstdlib>
+#include <ctime>
 Actor::Actor()
 {
+
+    // -200부터 200까지의 랜덤 값 생성
+    int randomValue = std::rand() % 1201 - 600;
+    m_position.x= (float)randomValue;
+    randomValue = std::rand() % 801 - 400;
+    m_position.y = (float)randomValue;
+    randomValue = std::rand() % 401 - 200;
+    m_position.z = (float)randomValue;
+
 	auto newComponent = AddComponent<StaticMeshComponent>();
 	newComponent->SetStaicMesh("cerberus.fbx");
 }

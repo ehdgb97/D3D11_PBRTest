@@ -30,8 +30,9 @@ bool StaticMesh::Create(std::string _FilePath)
         aiProcess_GenUVCoords |
         aiProcess_CalcTangentSpace |
         aiProcess_LimitBoneWeights |
+        aiProcess_GenBoundingBoxes| // 바운딩 박스 생성
         aiProcess_ConvertToLeftHanded;
-    string path = "../Resource/";
+    string path = "..//Resource/";
     string realpath = path + _FilePath;
     importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, 0);    // $assimp_fbx$ 노드 생성안함
     const aiScene* scene = importer.ReadFile(realpath, importFlags);
@@ -44,6 +45,7 @@ bool StaticMesh::Create(std::string _FilePath)
     m_Materials.resize(scene->mNumMaterials);
 
 
+
     for (unsigned int i = 0; i < scene->mNumMaterials; ++i)
     {
         m_Materials[i].Create(scene->mMaterials[i]);
@@ -52,7 +54,9 @@ bool StaticMesh::Create(std::string _FilePath)
     m_pStaticMeshPart.resize(scene->mNumMeshes);
 
     Create_meshes(scene->mRootNode, scene);
-
+    float absMax = max(m_AABBmax.Length(), m_AABBmin.Length());
+    m_BoundingBoxMin = Vector3(-absMax, -absMax, -absMax);
+    m_BoundingBoxMax = Vector3(absMax, absMax, absMax);
     /*for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
     {
 		m_pStaticMeshPart[i].Create(scene->mMeshes[i]);
@@ -72,8 +76,13 @@ bool StaticMesh::Create_meshes(aiNode* node, const aiScene* scene)
 		mesh->mName.C_Str();
 		m_pStaticMeshPart[i].Create(mesh);
 		m_pStaticMeshPart[i].SetNodeName(node->mName.C_Str());
-
+        Vector3 meshMin = Vector3(mesh->mAABB.mMin.x, mesh->mAABB.mMin.y, mesh->mAABB.mMin.z);
+        Vector3 meshMax = Vector3(mesh->mAABB.mMax.x, mesh->mAABB.mMax.y, mesh->mAABB.mMax.z);
+        m_AABBmin = Vector3::Min(m_AABBmin, meshMin);
+        m_AABBmax = Vector3::Max(m_AABBmax, meshMax);
 	}
+
+
 	// 자식 노드에 대해 재귀적으로 호출
 	for (unsigned int i = 0; i < node->mNumChildren; ++i)
 	{

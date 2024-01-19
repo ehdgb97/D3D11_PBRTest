@@ -7,7 +7,7 @@
 #include <imgui.h>
 #include <imgui_impl_win32.h>
 #include <imgui_impl_dx11.h>
-
+#include <psapi.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -23,7 +23,7 @@ ID3D11Device* D3DRenderManager::m_pDevice = nullptr;
 D3DRenderManager::D3DRenderManager()
 	//: MainApp(hInstance)
 	:
-	 m_cameraTrans(0, 70, -1000.f)
+	 m_cameraTrans(0, 0, -1000.f)
 	, m＿cameraFov(XM_PIDIV4)
 	, m_cameraDistance(1.f, 3000.f)
 
@@ -133,6 +133,7 @@ void D3DRenderManager::Render()
 	}
 	m_pDeviceContext->UpdateSubresource(m_pDirectionLightCB, 0, nullptr, &m_DirectionLightCB, 0, 0);
 	
+
 	for (auto object : m_Actors)
 	{
 		object->SetWorld(m_World);
@@ -155,6 +156,12 @@ void D3DRenderManager::Render()
 	{
 		{
 			ImGui::Begin("Testing Imgui");                          // Create a window called "Hello, world!" and append into it.
+			SIZE_T totalMemory, usedMemory;
+			GetProcessMemoryUsage(totalMemory, usedMemory);
+
+			ImGui::Text("Memory Usage:");
+			ImGui::Text("Total Memory: %.2f MB", static_cast<float>(totalMemory) / (1024 * 1024));
+			ImGui::Text("Used Memory: %.2f MB", static_cast<float>(usedMemory) / (1024 * 1024));
 			if (ImGui::CollapsingHeader("Camera Setting"))
 			{
 				ImGui::Text("Camera Location:");
@@ -176,6 +183,39 @@ void D3DRenderManager::Render()
 				ImGui::Text("");
 
 			}
+			if (ImGui::CollapsingHeader("Light Setting"))
+			{
+				ImGui::Text("Use BlinnPhong:");
+				ImGui::SameLine(150);
+				ImGui::Checkbox("##Check BlinnPhong", &m_DirectionLightCB.UseBlinnPhong);
+
+				ImGui::Text("Light Direction:");
+				ImGui::SameLine(150);
+				ImGui::DragFloat3("##SliderLightDir", reinterpret_cast<float*>(&m_DirectionLightCB.Direction), 0.01f, -1.f, 1.f);
+
+				ImGui::Text("Light Ambient:");
+				ImGui::SameLine(150);
+				ImGui::ColorEdit4("##EditDirectionAmbient", reinterpret_cast<float*>(&m_DirectionLightCB.Ambient));
+
+				ImGui::Text("Light Diffuse:");
+				ImGui::SameLine(150);
+				ImGui::ColorEdit4("##EditDirectionDiffuse", reinterpret_cast<float*>(&m_DirectionLightCB.Diffuse));
+
+				ImGui::Text("Light Specular:");
+				ImGui::SameLine(150);
+				ImGui::ColorEdit4("##EditDirectionSpecular", reinterpret_cast<float*>(&m_DirectionLightCB.Specular));
+
+
+
+
+			}
+			ImGui::SameLine();
+			ImGui::End();
+
+		}
+		///Actor
+		{
+			ImGui::Begin("Actor Setting");                          // Create a window called "Hello, world!" and append into it.
 			int i = 0;
 			for (auto object : m_Actors)
 			{
@@ -212,62 +252,12 @@ void D3DRenderManager::Render()
 					combinedsubString = "##GameObject" + std::to_string(i) + "RotationSpeed";
 					ImGui::DragFloat3(combinedsubString.c_str(), reinterpret_cast<float*>(&m_meshRotationAngle), 1, -720.f, 720.f);
 					Scale = { Scale.x,Scale.x,Scale.x };
-					if (m_meshRotationUse)
-						Angle += m_meshRotationAngle * GameTimer::m_Instance->DeltaTime();
+					//if (m_meshRotationUse)
+					Angle += m_meshRotationAngle * GameTimer::m_Instance->DeltaTime();
 					///셋 pos
 					object->SetPos(Pos);
 					object->SetScale(Scale);
 					object->SetAngle(Angle);
-
-					combinedMainstring = combinedMainstring + "Graphic";
-					ImGui::Text("");
-
-					/*ImGui::Text("Graphics:");
-					CB_Material material = object->GetMaterialCB();
-					combinedsubString = "##GameObject" + std::to_string(i) + "Ambient";
-
-					ImGui::Text("Mesh Ambient:");
-					ImGui::SameLine(150);
-					ImGui::ColorEdit4(combinedsubString.c_str(), reinterpret_cast<float*>(&material.Ambient));
-
-					combinedsubString = "##GameObject" + std::to_string(i) + "Diffuse";
-					ImGui::Text("Mesh Diffuse:");
-					ImGui::SameLine(150);
-					ImGui::ColorEdit4(combinedsubString.c_str(), reinterpret_cast<float*>(&material.Diffuse));
-					combinedsubString = "##GameObject" + std::to_string(i) + "Specular";
-
-					ImGui::Text("Mesh Specular:");
-					ImGui::SameLine(150);
-					ImGui::ColorEdit4(combinedsubString.c_str(), reinterpret_cast<float*>(&material.Specular));
-					combinedsubString = "##GameObject" + std::to_string(i) + "Emissive";
-
-					ImGui::Text("Mesh Emissive:");
-					ImGui::SameLine(150);
-					ImGui::ColorEdit4(combinedsubString.c_str(), reinterpret_cast<float*>(&material.Emissive));
-					combinedsubString = "##GameObject" + std::to_string(i) + "SpecularPower";
-
-					ImGui::Text("Mesh Specular Power:");
-					ImGui::SameLine(150);
-					ImGui::DragFloat(combinedsubString.c_str(), (&material.SpecularPower), 1.f, 2.f, 8192.f);
-
-					object->SetMaterialCB(material);
-					combinedsubString = "##GameObject" + std::to_string(i) + "UseAnime";
-					ImGui::Text("Use Anime:");
-
-					ImGui::SameLine(150);
-					bool UseAni = object->GetUseAni();
-					ImGui::Checkbox(combinedsubString.c_str(), &UseAni);
-					if (UseAni != object->GetUseAni())
-						object->SetUseAni(UseAni);
-					if (object->GetUseAni())
-					{
-						combinedsubString = "##GameObject" + std::to_string(i) + "AnimeDuration";
-						ImGui::Text("Anime Druation");
-						float Anime_Duration = object->GetAnimations()[object->AnimationIndex]->GetDuration();
-						ImGui::DragFloat(combinedsubString.c_str(), (&Anime_Duration), 0.01f, 0.1f, 10.f);
-						object->GetAnimations()[object->AnimationIndex]->SetDuration(Anime_Duration);
-					}*/
-
 				}
 				i++;
 			}
@@ -276,39 +266,6 @@ void D3DRenderManager::Render()
 			ImGui::End();
 		}
 
-		///라이팅
-		{
-			ImGui::Begin("Testing Light");
-
-			if (ImGui::CollapsingHeader("Light Setting"))
-			{
-				ImGui::Text("Use BlinnPhong:");
-				ImGui::SameLine(150);
-				ImGui::Checkbox("##Check BlinnPhong", &m_DirectionLightCB.UseBlinnPhong);
-
-				ImGui::Text("Light Direction:");
-				ImGui::SameLine(150);
-				ImGui::DragFloat3("##SliderLightDir", reinterpret_cast<float*>(&m_DirectionLightCB.Direction), 0.01f, -1.f, 1.f);
-
-				ImGui::Text("Light Ambient:");
-				ImGui::SameLine(150);
-				ImGui::ColorEdit4("##EditDirectionAmbient", reinterpret_cast<float*>(&m_DirectionLightCB.Ambient));
-
-				ImGui::Text("Light Diffuse:");
-				ImGui::SameLine(150);
-				ImGui::ColorEdit4("##EditDirectionDiffuse", reinterpret_cast<float*>(&m_DirectionLightCB.Diffuse));
-
-				ImGui::Text("Light Specular:");
-				ImGui::SameLine(150);
-				ImGui::ColorEdit4("##EditDirectionSpecular", reinterpret_cast<float*>(&m_DirectionLightCB.Specular));
-
-
-
-
-			}
-			ImGui::SameLine();
-			ImGui::End();
-		}
 
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -533,7 +490,7 @@ bool D3DRenderManager::InitScene()
 		m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, m_viewport.Width / (FLOAT)m_viewport.Height, 0.01f, 100.0f);
 
 	}
-	int SpawnObject =10;
+	int SpawnObject =1000;
 
 
 	for (int i = 0; i < SpawnObject; i++)
@@ -564,6 +521,20 @@ void D3DRenderManager::UninitImGUI()
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+}
+
+void D3DRenderManager::GetProcessMemoryUsage(SIZE_T& total, SIZE_T& used)
+{
+	PROCESS_MEMORY_COUNTERS_EX pmc;
+	if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc))) 
+	{
+		total = pmc.WorkingSetSize;
+		used = pmc.PrivateUsage;
+	}
+	else 
+	{
+		// 에러 처리
+	}
 }
 
 void D3DRenderManager::UninitScene()

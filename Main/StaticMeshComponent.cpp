@@ -45,8 +45,6 @@ void StaticMeshComponent::Update(float DeltaTime)
 	m_angle.y = static_cast<float>(fmod(m_angle.y, 360));
 	m_angle.z = static_cast<float>(fmod(m_angle.z, 360));
 	m_scale = { m_scale.x,m_scale.x,m_scale.x };
-
-
 	mWorld = mLocalTransformMatrix * m_pOwner->GetWorld();
 
 
