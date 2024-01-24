@@ -144,6 +144,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BoneReference.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="SkeletalMeshComponent.h" />
     <ClInclude Include="StaticMeshComponent.h" />
     <ClInclude Include="VertexType.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BoneReference.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="SkeletalMeshComponent.cpp" />
     <ClCompile Include="StaticMeshComponent.cpp" />
     <ClCompile Include="VertexType.cpp" />

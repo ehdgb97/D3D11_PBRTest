@@ -37,30 +37,30 @@ public:
 	ID3D11Buffer* m_pMaterialCB = nullptr;				// 상수 버퍼.
 	ID3D11Buffer* m_pMatrixPalleteCB = nullptr;			// 상수 버퍼
 
-	D3D11_VIEWPORT m_viewport;
+	D3D11_VIEWPORT m_viewport = {};
 
 	// 쉐이더에 에 전달할 데이터
 		// 렌더링 파이프라인에 적용하는 정보
 
-	Matrix     m_World;			// 월드좌표계 공간으로 변환을 위한 행렬.
-	Matrix     m_View;			// 카메라좌표계 공간으로 변환을 위한 행렬.
-	Matrix     m_Projection;	// 단위장치좌표계( Normalized Device Coordinate) 공간으로 변환을 위한 행렬.
+	Matrix     m_World = {};			// 월드좌표계 공간으로 변환을 위한 행렬.
+	Matrix     m_View = {};			// 카메라좌표계 공간으로 변환을 위한 행렬.
+	Matrix     m_Projection = {};	// 단위장치좌표계( Normalized Device Coordinate) 공간으로 변환을 위한 행렬.
 
-	Vector3 m_cameraTrans;
-	Vector3 m_cameraRot;
-	Vector2 m_cameraDistance;
-	float	m＿cameraFov;
+	Vector3 m_cameraTrans = {};
+	Vector3 m_cameraRot = {};
+	Vector2 m_cameraDistance = {};
+	float	m＿cameraFov = {};
 
-	CB_Transform m_TransformCB;
-	CB_DirectionLight m_DirectionLightCB;
-	CB_Material m_MaterialCB;
+	CB_Transform m_TransformCB = {};
+	CB_DirectionLight m_DirectionLightCB = {};
+	CB_Material m_MaterialCB = {};
 
 	HWND m_hWnd = nullptr;
 
-	std::list<std::shared_ptr<Actor>> m_Actors;	// 생성된 게임 오브젝트들	
+	std::list<std::shared_ptr<Actor>> m_Actors = {};	// 생성된 게임 오브젝트들	
 
-	Vector3 m_meshRotationAngle;
-	bool m_meshRotationUse;
+	Vector3 m_meshRotationAngle = {};
+	bool m_meshRotationUse = {};
 
 
 	bool Initialize(HWND Handle,UINT Width, UINT Height);

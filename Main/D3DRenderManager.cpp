@@ -11,7 +11,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-
+#include "DebugDraw.h"
 #pragma comment (lib, "d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -140,7 +140,10 @@ void D3DRenderManager::Render()
 		object->Render();
 	}
 
-
+	for (auto object : m_Actors)
+	{
+		object->DebugRender();
+	}
 #pragma region Imgui
 
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -490,8 +493,8 @@ bool D3DRenderManager::InitScene()
 		m_Projection = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV2, m_viewport.Width / (FLOAT)m_viewport.Height, 0.01f, 100.0f);
 
 	}
-	int SpawnObject =1000;
-
+	int SpawnObject =4;
+	DebugDraw::Initialize(m_pDevice, m_pDeviceContext);
 
 	for (int i = 0; i < SpawnObject; i++)
 	{

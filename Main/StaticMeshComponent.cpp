@@ -4,6 +4,7 @@
 #include"D3DRenderManager.h"
 #include"ResourceManager.h"
 #include"Actor.h"
+#include "DebugDraw.h"
 
 StaticMeshComponent::StaticMeshComponent(Actor* owner) : Component(owner) 
 {
@@ -22,6 +23,8 @@ bool StaticMeshComponent::SetStaicMesh(string _FilePath)
 {
 	m_pStaticMesh =ResourceManager::Instance->Search_StaticMesh(_FilePath);
 	m_pStaticMesh->m_rootNode.SetOwner(this);
+	m_BoundingBox.Center = (m_pStaticMesh->m_BoundingBoxMin + m_pStaticMesh->m_BoundingBoxMax) * .5f;
+	m_BoundingBox.Extents = (m_pStaticMesh->m_BoundingBoxMin - m_pStaticMesh->m_BoundingBoxMax) * .5f;
 
 
 
@@ -34,7 +37,7 @@ void StaticMeshComponent::Update(float DeltaTime)
 	using namespace DirectX;
 	XMFLOAT3 meshRotation = {};
 	meshRotation.x = XMConvertToRadians(m_angle.x);
-	meshRotation.y = XMConvertToRadians(m_angle.y);
+	meshRotation.y = XMConvertToRadian  asdflkjasdf; lkjasdf; lkjasdfl; kjsdfkjlksdjfl;kasdjfn        x     s(m_angle.y);
 	meshRotation.z = XMConvertToRadians(m_angle.z);
 	Matrix scaleMatrix = XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
 	Matrix rotationMatrix = XMMatrixRotationX(meshRotation.x) * XMMatrixRotationY(meshRotation.y) * XMMatrixRotationZ(meshRotation.z);
@@ -55,7 +58,7 @@ void StaticMeshComponent::Render()
 {
 	m_pStaticMesh->m_rootNode.SetOwner(this);
 	m_pStaticMesh->m_rootNode.Update();
-	for (auto& part:m_pStaticMesh->m_pStaticMeshPart)
+	for (auto& part : m_pStaticMesh->m_pStaticMeshPart)
 	{
 		Matrix transform = DirectX::XMMatrixTranspose(m_pStaticMesh->m_rootNode.FindNode(part.pNodeName)->GetTransform());
 
@@ -70,5 +73,22 @@ void StaticMeshComponent::Render()
 		D3DRenderManager::Instance->m_pDeviceContext->IASetIndexBuffer(part.m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 		D3DRenderManager::Instance->m_pDeviceContext->IASetVertexBuffers(0, 1, &part.m_pVertexBuffer, &part.m_VertexBufferStride, &part.m_VertexBufferOffset);
 		D3DRenderManager::Instance->m_pDeviceContext->DrawIndexed(part.m_IndexCount, 0, 0);
+
 	}
+
+}
+
+void StaticMeshComponent::DebugRender()
+{
+	m_pStaticMesh->m_rootNode.SetOwner(this);
+	m_pStaticMesh->m_rootNode.Update();
+	D3DRenderManager::Instance->m_TransformCB.mWorld = DirectX::XMMatrixTranspose(mWorld);
+		D3DRenderManager::Instance->m_pDeviceContext->UpdateSubresource(D3DRenderManager::Instance->m_pTransformCB, 0, nullptr, &D3DRenderManager::Instance->m_TransformCB, 0, 0);
+	DebugDraw::g_Batch->Begin();
+	DebugDraw::Draw(DebugDraw::g_Batch.get(), m_BoundingBox, Colors::Blue);
+	DebugDraw::g_Batch->End();
+
+	DebugDraw::g_Batch->Begin();
+	DebugDraw::Draw(DebugDraw::g_Batch.get(), m_BoundingBox, Colors::Blue);
+	DebugDraw::g_Batch->End();
 }

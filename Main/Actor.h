@@ -11,7 +11,7 @@ class Actor
 	Matrix mLocalTransformMatrix;
 	Matrix     mWorld;		// 월드좌표계 공간으로 변환을 위한 행렬.
 	bool m_useAnime = false;
-
+	bool Renderable;
 
 public:
 	unsigned int AnimationIndex = 0;
@@ -21,7 +21,7 @@ public:
 	std::list<std::shared_ptr<Component>> m_OwnedComponents;	// 소유한 컴포넌트들
 	virtual void Update(float _deltatime);
 	virtual void Render();
-
+	virtual void DebugRender();
 	void SetWorld(Matrix world);
 	void SetPos(Vector3 Pos);
 	void SetScale(Vector3 Scale);

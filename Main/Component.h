@@ -26,6 +26,7 @@ public:
 	 Actor* GetOwner() { return m_pOwner; }
 	 virtual void Update(float DeltaTime);
 	 virtual void Render();
+	 virtual void DebugRender();
 
 };
 

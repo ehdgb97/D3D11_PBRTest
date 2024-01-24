@@ -118,7 +118,6 @@ void Node::Render(ID3D11DeviceContext* m_pDeviceContext, ID3D11BlendState* m_pAl
 Matrix Node::GetTransform()
 {
 	assert(m_Owner != nullptr);
-	Matrix matrix = DirectX::XMMatrixIdentity();
 	//if (!m_Owner->GetUseAni())
 	//{
 

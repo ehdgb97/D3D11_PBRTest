@@ -59,3 +59,11 @@ void Actor::Render()
 		component->Render();
 	}
 }
+
+void Actor::DebugRender()
+{
+    for (auto& component : m_OwnedComponents)
+    {
+        component->DebugRender();
+    }
+}

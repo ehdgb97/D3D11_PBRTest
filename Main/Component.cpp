@@ -8,3 +8,7 @@ void Component::Update(float DeltaTime)
 void Component::Render()
 {
 }
+
+void Component::DebugRender()
+{
+}
